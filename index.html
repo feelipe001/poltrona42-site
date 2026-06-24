@@ -5,93 +5,216 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Onde Assistir - @_felipeindica</title>
     <style>
+        /* Animações Globais */
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+        @keyframes pulseGlow { 0% { box-shadow: 0 0 0 0 rgba(255, 159, 67, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(255, 159, 67, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 159, 67, 0); } }
+        @keyframes shimmer { 0% { left: -100%; } 100% { left: 100%; } }
+
         /* Reset e Estilos de Base */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
-        body { background-color: #090b0e; color: #f5f6fa; display: flex; justify-content: center; padding: 12px; min-height: 100vh; }
-        .app-container { width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 20px; padding-bottom: 30px; }
-        .header { text-align: center; margin-top: 10px; }
-        .profile-tag { font-size: 1.1rem; font-weight: 700; color: #ff9f43; text-decoration: none; letter-spacing: 0.5px; }
         
-        /* Barra de Busca */
-        .search-container { position: relative; }
-        .search-input { width: 100%; padding: 16px 20px; background-color: #15181f; border: 1px solid #222733; border-radius: 14px; color: #fff; font-size: 1rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
-        .search-input:focus { border-color: #ff9f43; box-shadow: 0 0 0 2px rgba(255, 159, 67, 0.15); }
+        body { 
+            background: linear-gradient(-45deg, #090b0e, #141824, #0a0d14, #090b0e);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #f5f6fa; 
+            display: flex; 
+            justify-content: center; 
+            padding: 16px; 
+            min-height: 100vh; 
+        }
+
+        .app-container { 
+            width: 100%; 
+            max-width: 440px; 
+            display: flex; 
+            flex-direction: column; 
+            gap: 24px; 
+            padding-bottom: 40px; 
+            animation: fadeIn 0.6s ease-out;
+        }
+
+        /* Header e Hero Section */
+        .header { text-align: center; margin-top: 10px; display: flex; flex-direction: column; gap: 16px; }
+        .profile-tag { font-size: 0.95rem; font-weight: 700; color: #ff9f43; text-decoration: none; letter-spacing: 1px; text-transform: uppercase; }
         
-        /* Loading */
-        .loading { text-align: center; font-size: 0.9rem; color: #a4b0be; display: none; margin-top: 10px; }
+        .hero-title { font-size: 1.8rem; font-weight: 800; line-height: 1.2; color: #ffffff; margin-top: 10px;}
+        .hero-subtitle { font-size: 0.95rem; color: #a4b0be; margin-top: 6px; }
 
-        /* TELA INICIAL (Em Alta) */
-        #homeState { display: flex; flex-direction: column; gap: 20px; }
-        .trending-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
-        .trending-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
-        .trending-scroll::-webkit-scrollbar { display: none; }
-        .trending-item { flex: 0 0 auto; width: 100px; cursor: pointer; transition: transform 0.2s; }
-        .trending-item:active { transform: scale(0.95); }
-        .trending-poster { width: 100%; height: 150px; border-radius: 10px; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        /* Barra de Busca Avançada */
+        .search-wrapper { position: relative; width: 100%; }
+        .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; fill: #747d8c; transition: fill 0.3s; }
+        .search-input { 
+            width: 100%; 
+            padding: 18px 20px 18px 48px; 
+            background-color: rgba(21, 24, 31, 0.8); 
+            backdrop-filter: blur(10px);
+            border: 1px solid #2a303c; 
+            border-radius: 16px; 
+            color: #fff; 
+            font-size: 1.05rem; 
+            outline: none; 
+            transition: all 0.3s ease; 
+            box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+        }
+        .search-input:focus { border-color: #ff9f43; box-shadow: 0 0 0 3px rgba(255, 159, 67, 0.2), 0 8px 24px rgba(0,0,0,0.4); }
+        .search-input:focus + .search-icon { fill: #ff9f43; }
 
-        /* Bloco de Resultado (Inicia oculto) */
-        .movie-result { background-color: #11141a; border-radius: 16px; border: 1px solid #1c202b; padding: 20px; display: none; flex-direction: column; gap: 20px; }
+        /* Chips de Categoria (Tags de sugestão) */
+        .category-chips { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
+        .category-chips::-webkit-scrollbar { display: none; }
+        .chip { 
+            background-color: #1c202b; 
+            color: #ced6e0; 
+            padding: 8px 16px; 
+            border-radius: 20px; 
+            font-size: 0.85rem; 
+            font-weight: 600; 
+            white-space: nowrap; 
+            border: 1px solid #2a303c;
+            transition: all 0.2s;
+        }
+        .chip:active { transform: scale(0.95); background-color: #ff9f43; color: #000; border-color: #ff9f43; }
+
+        /* Loading Animado */
+        .loading { text-align: center; display: none; margin-top: 20px; }
+        .spinner { width: 30px; height: 30px; border: 3px solid rgba(255, 159, 67, 0.3); border-radius: 50%; border-top-color: #ff9f43; animation: spin 1s ease-in-out infinite; margin: 0 auto; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* Filmes em Alta */
+        #homeState { display: flex; flex-direction: column; gap: 24px; animation: fadeIn 0.5s ease-out; }
+        .section-title { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 12px; display: flex; align-items: center; gap: 6px; }
+        
+        .trending-scroll { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 15px; scrollbar-width: none; scroll-snap-type: x mandatory; }
+        .trending-item { flex: 0 0 auto; width: 110px; cursor: pointer; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); scroll-snap-align: start; position: relative;}
+        .trending-item:active { transform: scale(0.92); }
+        .trending-poster { width: 100%; height: 160px; border-radius: 12px; object-fit: cover; box-shadow: 0 6px 12px rgba(0,0,0,0.5); transition: box-shadow 0.3s; }
+        .trending-item:hover .trending-poster { box-shadow: 0 0 15px rgba(255, 159, 67, 0.4); border: 1px solid rgba(255, 159, 67, 0.5); }
+
+        /* Bloco de Resultado */
+        .movie-result { background-color: rgba(17, 20, 26, 0.9); backdrop-filter: blur(10px); border-radius: 20px; border: 1px solid #2a303c; padding: 20px; display: none; flex-direction: column; gap: 24px; animation: fadeIn 0.4s ease-out; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
         .movie-info { display: flex; gap: 16px; }
-        .movie-poster { width: 105px; height: 155px; background-color: #1d222f; border-radius: 10px; object-fit: cover; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4); }
+        .movie-poster { width: 110px; height: 165px; border-radius: 12px; object-fit: cover; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); }
         .movie-details { display: flex; flex-direction: column; justify-content: center; flex: 1; }
-        .movie-title { font-size: 1.3rem; font-weight: 700; line-height: 1.2; margin-bottom: 6px; }
-        .movie-meta { font-size: 0.85rem; color: #a4b0be; margin-bottom: 10px; }
-        .movie-synopsis { font-size: 0.85rem; color: #ced6e0; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        .movie-title { font-size: 1.4rem; font-weight: 800; line-height: 1.1; margin-bottom: 8px; color: #fff; }
+        .movie-meta { font-size: 0.85rem; color: #ff9f43; margin-bottom: 10px; font-weight: 600; }
+        .movie-synopsis { font-size: 0.85rem; color: #a4b0be; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
         
         /* Seção de Streaming */
-        .streaming-section { display: flex; flex-direction: column; gap: 10px; }
-        .section-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #747d8c; font-weight: 700; margin-bottom: 2px; }
-        .platforms-list { display: flex; flex-direction: column; gap: 8px; }
-        .platform-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background-color: #171b24; border: 1px solid #222836; border-radius: 12px; }
+        .platforms-list { display: flex; flex-direction: column; gap: 10px; }
+        .platform-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: #1c202b; border: 1px solid #2a303c; border-radius: 14px; }
         .platform-left { display: flex; align-items: center; gap: 12px; }
-        .platform-logo { width: 28px; height: 28px; border-radius: 6px; object-fit: cover; }
-        .platform-name { font-size: 0.95rem; font-weight: 600; }
-        .platform-status { font-size: 0.85rem; color: #a4b0be; }
-        .no-providers { font-size: 0.9rem; color: #a4b0be; text-align: center; padding: 10px; background: #15181f; border-radius: 8px; }
+        .platform-logo { width: 32px; height: 32px; border-radius: 8px; object-fit: cover; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+        .platform-name { font-size: 0.95rem; font-weight: 600; color: #fff; }
+        .platform-status { font-size: 0.8rem; color: #747d8c; font-weight: 600; text-transform: uppercase; background: #15181f; padding: 4px 8px; border-radius: 6px; }
+        .no-providers { font-size: 0.9rem; color: #a4b0be; text-align: center; padding: 15px; background: rgba(255, 60, 60, 0.1); border: 1px solid rgba(255, 60, 60, 0.2); border-radius: 12px; }
         
-        /* Conversão: Poltrona 42 (Agora fixo na Home também) */
-        .conversion-card { background: linear-gradient(135deg, #191d29 0%, #0e1118 100%); border: 2px solid #ff9f43; border-radius: 14px; padding: 20px; text-align: center; position: relative; overflow: hidden; box-shadow: 0 10px 25px rgba(255, 159, 67, 0.1); margin-top: 5px;}
-        .conversion-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 4px; color: #ffffff; }
-        .conversion-subtitle { font-size: 0.85rem; color: #ced6e0; margin-bottom: 16px; line-height: 1.4; }
-        .cta-button { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 16px; background-color: #ff9f43; color: #090b0e; border: none; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: background-color 0.2s, transform 0.1s; box-shadow: 0 4px 15px rgba(255, 159, 67, 0.3); }
-        .cta-button:active { transform: scale(0.98); background-color: #e08b36; }
+        /* Conversão: Poltrona 42 (O Grande Destaque) */
+        .conversion-card { 
+            background: linear-gradient(145deg, #1f140b 0%, #120b05 100%); 
+            border: 1px solid rgba(255, 159, 67, 0.3); 
+            border-radius: 18px; 
+            padding: 24px 20px; 
+            text-align: center; 
+            position: relative; 
+            overflow: hidden; 
+            box-shadow: 0 15px 30px rgba(0,0,0,0.5); 
+            margin-top: 10px;
+        }
+        
+        .conversion-title { font-size: 1.2rem; font-weight: 900; margin-bottom: 6px; color: #ffffff; }
+        .conversion-title span { color: #ff9f43; }
+        .conversion-subtitle { font-size: 0.9rem; color: #ced6e0; margin-bottom: 20px; line-height: 1.4; }
+        
+        .cta-button { 
+            display: inline-flex; 
+            align-items: center; 
+            justify-content: center; 
+            gap: 8px;
+            width: 100%; 
+            padding: 18px; 
+            background: linear-gradient(90deg, #ff9f43, #ff7b00); 
+            color: #fff; 
+            border: none; 
+            border-radius: 14px; 
+            font-size: 1.05rem; 
+            font-weight: 800; 
+            text-decoration: none; 
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+            animation: pulseGlow 2.5s infinite;
+            transition: transform 0.2s;
+        }
+        
+        .cta-button::after {
+            content: '';
+            position: absolute;
+            top: 0; left: -100%; width: 50%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        .cta-button:active { transform: scale(0.96); }
+
     </style>
 </head>
 <body>
 
     <div class="app-container">
-        <!-- Header -->
+        <!-- Header e Hero -->
         <header class="header">
             <a href="https://instagram.com/_felipeindica" target="_blank" class="profile-tag">@_felipeindica</a>
+            <div>
+                <h1 class="hero-title">O que você vai<br>assistir hoje?</h1>
+                <p class="hero-subtitle">Descubra em qual streaming o filme está.</p>
+            </div>
         </header>
 
-        <!-- Input de Busca -->
-        <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="Qual filme ou série quer assistir?">
+        <!-- Busca Avançada -->
+        <div class="search-wrapper">
+            <input type="text" id="searchInput" class="search-input" placeholder="Digite o nome do filme ou série...">
+            <!-- Ícone de Lupa em SVG -->
+            <svg class="search-icon" viewBox="0 0 24 24">
+                <path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/>
+            </svg>
+        </div>
+
+        <!-- Sugestões de Busca Rápida -->
+        <div class="category-chips">
+            <div class="chip" onclick="autoSearch('Ação')">🔥 Ação</div>
+            <div class="chip" onclick="autoSearch('Terror')">👻 Terror</div>
+            <div class="chip" onclick="autoSearch('Comédia')">😂 Comédia</div>
+            <div class="chip" onclick="autoSearch('Ficção Científica')">👽 Ficção</div>
         </div>
         
-        <div id="loadingIndicator" class="loading">Buscando na base de dados...</div>
+        <div id="loadingIndicator" class="loading">
+            <div class="spinner"></div>
+        </div>
 
-        <!-- TELA INICIAL (O que aparece antes de buscar) -->
+        <!-- TELA INICIAL (Em Alta) -->
         <div id="homeState">
             <div>
-                <h2 class="trending-title">🔥 Em Alta Hoje</h2>
+                <h2 class="section-title">🍿 Em Alta na Semana</h2>
                 <div class="trending-scroll" id="trendingList">
-                    <!-- Filmes em alta serão injetados aqui -->
+                    <!-- Filmes em alta injetados via JS -->
                 </div>
             </div>
 
-            <!-- Destaque Estratégico: Poltrona 42 (Na Home) -->
+            <!-- Destaque Estratégico: Poltrona 42 -->
             <div class="conversion-card">
-                <h3 class="conversion-title">Quer a melhor experiência?</h3>
-                <p class="conversion-subtitle">Assista aos melhores filmes e séries sem depender de várias assinaturas caras.</p>
-                <a href="SUA_PAGINA_DE_VENDAS_AQUI" class="cta-button">🍿 Conhecer a Poltrona 42</a>
+                <h3 class="conversion-title">Chega de pagar <span>vários streamings!</span></h3>
+                <p class="conversion-subtitle">Tenha todos os filmes, séries e animes em um só lugar. A melhor experiência de cinema na sua casa.</p>
+                <a href="SUA_PAGINA_DE_VENDAS_AQUI" class="cta-button">
+                    🎬 Conhecer a Poltrona 42
+                </a>
             </div>
         </div>
 
-        <!-- Bloco de Resultado (Aparece após buscar ou clicar num filme) -->
+        <!-- Bloco de Resultado -->
         <main id="movieResult" class="movie-result">
-            <!-- Ficha Técnica -->
             <div class="movie-info">
                 <img id="moviePoster" src="" alt="Pôster" class="movie-poster">
                 <div class="movie-details">
@@ -101,30 +224,27 @@
                 </div>
             </div>
 
-            <!-- Plataformas Oficiais -->
             <div class="streaming-section">
-                <h2 class="section-title">Onde Assistir Oficialmente</h2>
-                <div id="platformsList" class="platforms-list">
-                    <!-- As plataformas serão injetadas aqui pelo JS -->
-                </div>
+                <h2 class="section-title">Onde Assistir</h2>
+                <div id="platformsList" class="platforms-list"></div>
             </div>
 
-            <!-- Destaque Estratégico: Poltrona 42 (No Resultado) -->
-            <div class="conversion-card">
-                <h3 class="conversion-title">Chega de pagar vários streamings!</h3>
-                <p class="conversion-subtitle">Assista a este conteúdo e milhares de outros na melhor qualidade.</p>
-                <a href="SUA_PAGINA_DE_VENDAS_AQUI" class="cta-button">🍿 Assistir na Poltrona 42</a>
+            <div class="conversion-card" style="margin-top: 0;">
+                <h3 class="conversion-title">Quer a <span>melhor qualidade?</span></h3>
+                <p class="conversion-subtitle">Assista a este título agora mesmo sem complicação e sem limites.</p>
+                <a href="SUA_PAGINA_DE_VENDAS_AQUI" class="cta-button">
+                    🎬 Assistir na Poltrona 42
+                </a>
             </div>
         </main>
     </div>
 
-    <!-- Motor de Busca e Lógica de Negócio -->
+    <!-- Script da API -->
     <script>
         const API_KEY = '674f80dffb5bc79391154b02a822fec8';
         const BASE_URL = 'https://api.themoviedb.org/3';
         const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
-        // Elementos do DOM
         const searchInput = document.getElementById('searchInput');
         const loadingIndicator = document.getElementById('loadingIndicator');
         const homeState = document.getElementById('homeState');
@@ -138,17 +258,19 @@
 
         let typingTimer;
 
-        // Carrega Filmes em Alta ao abrir a página
-        window.onload = () => {
-            fetchTrending();
-        };
+        window.onload = () => { fetchTrending(); };
 
-        // Puxa os filmes em alta
+        // Função para preencher a busca pelos "Chips"
+        function autoSearch(term) {
+            searchInput.value = term;
+            searchInput.focus();
+            triggerSearch(term);
+        }
+
         async function fetchTrending() {
             try {
                 const response = await fetch(`${BASE_URL}/trending/all/day?api_key=${API_KEY}&language=pt-BR`);
                 const data = await response.json();
-                
                 const results = data.results.filter(item => item.media_type === 'movie' || item.media_type === 'tv').slice(0, 10);
                 
                 trendingList.innerHTML = '';
@@ -157,50 +279,42 @@
                         const div = document.createElement('div');
                         div.className = 'trending-item';
                         div.innerHTML = `<img src="${IMAGE_BASE_URL}${media.poster_path}" class="trending-poster" alt="Pôster">`;
-                        
-                        // Se o usuário clicar no pôster em alta, exibe os detalhes dele
                         div.onclick = () => {
                             searchInput.value = media.title || media.name;
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
                             updateUIWithMediaDetails(media);
                             fetchWatchProviders(media.id, media.media_type);
                         };
-                        
                         trendingList.appendChild(div);
                     }
                 });
-            } catch (error) {
-                console.error("Erro ao carregar tendências:", error);
-            }
+            } catch (error) { console.error("Erro:", error); }
         }
 
-        // Ouve a digitação do usuário e dispara a busca
         searchInput.addEventListener('input', () => {
             clearTimeout(typingTimer);
             const query = searchInput.value.trim();
-            
             if (query.length < 3) {
                 if(query.length === 0) {
                     movieResult.style.display = 'none';
-                    homeState.style.display = 'flex'; // Volta para a Home
+                    homeState.style.display = 'flex';
                 }
                 return;
             }
-
-            loadingIndicator.style.display = 'block';
-            homeState.style.display = 'none'; // Esconde a Home
-            movieResult.style.display = 'none';
-            
-            typingTimer = setTimeout(() => {
-                searchMovieOrShow(query);
-            }, 500);
+            triggerSearch(query);
         });
 
-        // Passo 1: Busca o Filme ou Série
+        function triggerSearch(query) {
+            loadingIndicator.style.display = 'block';
+            homeState.style.display = 'none';
+            movieResult.style.display = 'none';
+            typingTimer = setTimeout(() => { searchMovieOrShow(query); }, 600);
+        }
+
         async function searchMovieOrShow(query) {
             try {
                 const response = await fetch(`${BASE_URL}/search/multi?api_key=${API_KEY}&language=pt-BR&query=${encodeURIComponent(query)}`);
                 const data = await response.json();
-
                 const results = data.results.filter(item => item.media_type === 'movie' || item.media_type === 'tv');
 
                 if (results.length > 0) {
@@ -210,18 +324,14 @@
                 } else {
                     loadingIndicator.style.display = 'none';
                 }
-            } catch (error) {
-                console.error("Erro ao buscar:", error);
-                loadingIndicator.style.display = 'none';
-            }
+            } catch (error) { loadingIndicator.style.display = 'none'; }
         }
 
-        // Passo 2: Atualiza a Interface com a Capa e Sinopse
         function updateUIWithMediaDetails(media) {
             const title = media.title || media.name;
             const releaseDate = media.release_date || media.first_air_date || "";
             const year = releaseDate ? releaseDate.split('-')[0] : "N/A";
-            const posterPath = media.poster_path ? `${IMAGE_BASE_URL}${media.poster_path}` : 'https://via.placeholder.com/105x155/1d222f/ffffff?text=Sem+Capa';
+            const posterPath = media.poster_path ? `${IMAGE_BASE_URL}${media.poster_path}` : 'https://via.placeholder.com/110x165/1d222f/ffffff?text=Sem+Capa';
 
             moviePoster.src = posterPath;
             movieTitle.textContent = title;
@@ -233,49 +343,35 @@
             movieResult.style.display = 'flex';
         }
 
-        // Passo 3: Busca onde assistir oficialmente no Brasil (BR)
         async function fetchWatchProviders(id, mediaType) {
             try {
                 const response = await fetch(`${BASE_URL}/${mediaType}/${id}/watch/providers?api_key=${API_KEY}`);
                 const data = await response.json();
-                
                 platformsList.innerHTML = ''; 
 
                 if (data.results && data.results.BR) {
                     const providersBR = data.results.BR;
                     let addedProviders = new Set();
 
-                    if (providersBR.flatrate) {
-                        providersBR.flatrate.forEach(provider => {
-                            if (!addedProviders.has(provider.provider_id)) {
-                                platformsList.appendChild(createProviderElement(provider, 'Assinatura'));
-                                addedProviders.add(provider.provider_id);
-                            }
-                        });
-                    }
+                    const addProvider = (provider, type) => {
+                        if (!addedProviders.has(provider.provider_id)) {
+                            platformsList.appendChild(createProviderElement(provider, type));
+                            addedProviders.add(provider.provider_id);
+                        }
+                    };
 
-                    if (providersBR.rent) {
-                        providersBR.rent.forEach(provider => {
-                            if (!addedProviders.has(provider.provider_id)) {
-                                platformsList.appendChild(createProviderElement(provider, 'Aluguel'));
-                                addedProviders.add(provider.provider_id);
-                            }
-                        });
-                    }
+                    if (providersBR.flatrate) providersBR.flatrate.forEach(p => addProvider(p, 'Assinatura'));
+                    if (providersBR.rent) providersBR.rent.forEach(p => addProvider(p, 'Aluguel'));
 
-                    if (addedProviders.size === 0) {
-                        platformsList.innerHTML = '<div class="no-providers">Não disponível em streamings oficiais no Brasil.</div>';
-                    }
+                    if (addedProviders.size === 0) platformsList.innerHTML = '<div class="no-providers">Não disponível em streamings oficiais no Brasil.</div>';
                 } else {
                     platformsList.innerHTML = '<div class="no-providers">Não disponível em streamings oficiais no Brasil.</div>';
                 }
             } catch (error) {
-                console.error("Erro ao buscar provedores:", error);
                 platformsList.innerHTML = '<div class="no-providers">Erro ao carregar plataformas.</div>';
             }
         }
 
-        // Função auxiliar para blocos visuais
         function createProviderElement(provider, type) {
             const div = document.createElement('div');
             div.className = 'platform-item';
