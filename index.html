@@ -211,7 +211,8 @@
 
         .marquee-container { width: 100%; overflow: hidden; position: relative; padding-bottom: 10px;}
 
-        .marquee-track { display: flex; gap: 12px; width: max-content; animation: scrollMarquee 40s linear infinite; }
+        /* will-change: transform; adicionado abaixo para corrigir o bug de sumir no iOS */
+        .marquee-track { display: flex; gap: 12px; width: max-content; animation: scrollMarquee 40s linear infinite; will-change: transform; }
 
         .marquee-track.reverse { animation-direction: reverse; }
 
@@ -539,8 +540,8 @@
         let typingTimer;
 
 
-
-        window.onload = () => { 
+        // Substituído window.onload por DOMContentLoaded para carregar instantâneo
+        document.addEventListener('DOMContentLoaded', () => { 
 
             fetchTrending(); 
 
@@ -552,7 +553,7 @@
 
             fetchGenreMarquee(27, 'track-horror');
 
-        };
+        });
 
 
 
@@ -615,6 +616,11 @@
                 });
 
                 container.innerHTML = htmlContent + htmlContent;
+
+                // Força um redesenho da tela para o iOS evitar o bug das imagens invisíveis
+                container.style.animation = 'none';
+                container.offsetHeight; 
+                container.style.animation = '';
 
             } catch (error) { console.error("Erro:", error); }
 
