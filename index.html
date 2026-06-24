@@ -3,295 +3,126 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onde Assistir - @felipeindica</title>
+    <title>Onde Assistir - @_felipeindica</title>
     <style>
         /* Reset e Estilos de Base */
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-        }
-
-        body {
-            background-color: #090b0e;
-            color: #f5f6fa;
-            display: flex;
-            justify-content: center;
-            padding: 12px;
-            min-height: 100vh;
-        }
-
-        /* Container Principal (Otimizado para a largura máxima de telas mobile) */
-        .app-container {
-            width: 100%;
-            max-width: 440px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-            padding-bottom: 30px;
-        }
-
-        /* Cabeçalho / Perfil */
-        .header {
-            text-align: center;
-            margin-top: 10px;
-        }
-
-        .profile-tag {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #ff9f43;
-            text-decoration: none;
-            letter-spacing: 0.5px;
-        }
-
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
+        body { background-color: #090b0e; color: #f5f6fa; display: flex; justify-content: center; padding: 12px; min-height: 100vh; }
+        .app-container { width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 20px; padding-bottom: 30px; }
+        .header { text-align: center; margin-top: 10px; }
+        .profile-tag { font-size: 1.1rem; font-weight: 700; color: #ff9f43; text-decoration: none; letter-spacing: 0.5px; }
+        
         /* Barra de Busca */
-        .search-container {
-            position: relative;
-        }
+        .search-container { position: relative; }
+        .search-input { width: 100%; padding: 16px 20px; background-color: #15181f; border: 1px solid #222733; border-radius: 14px; color: #fff; font-size: 1rem; outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+        .search-input:focus { border-color: #ff9f43; box-shadow: 0 0 0 2px rgba(255, 159, 67, 0.15); }
+        
+        /* Loading */
+        .loading { text-align: center; font-size: 0.9rem; color: #a4b0be; display: none; margin-top: 10px; }
 
-        .search-input {
-            width: 100%;
-            padding: 16px 20px;
-            background-color: #15181f;
-            border: 1px solid #222733;
-            border-radius: 14px;
-            color: #fff;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.2s, box-shadow 0.2s;
-        }
-
-        .search-input:focus {
-            border-color: #ff9f43;
-            box-shadow: 0 0 0 2px rgba(255, 159, 67, 0.15);
-        }
-
-        /* Bloco de Resultado do Filme (Ativo para visualização do layout) */
-        .movie-result {
-            background-color: #11141a;
-            border-radius: 16px;
-            border: 1px solid #1c202b;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
-        }
-
-        .movie-info {
-            display: flex;
-            gap: 16px;
-        }
-
-        /* Placeholder do Pôster */
-        .movie-poster {
-            width: 105px;
-            height: 155px;
-            background-color: #1d222f;
-            border-radius: 10px;
-            object-fit: cover;
-            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
-        }
-
-        .movie-details {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            flex: 1;
-        }
-
-        .movie-title {
-            font-size: 1.3rem;
-            font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 6px;
-        }
-
-        .movie-meta {
-            font-size: 0.85rem;
-            color: #a4b0be;
-            margin-bottom: 10px;
-        }
-
-        .movie-synopsis {
-            font-size: 0.85rem;
-            color: #ced6e0;
-            line-height: 1.4;
-            display: -webkit-box;
-            -webkit-line-clamp: 3;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
-        }
-
-        /* Seção de Streaming Oficial */
-        .streaming-section {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .section-title {
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            color: #747d8c;
-            font-weight: 700;
-            margin-bottom: 2px;
-        }
-
-        .platform-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 16px;
-            background-color: #171b24;
-            border: 1px solid #222836;
-            border-radius: 12px;
-        }
-
-        .platform-left {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        /* Simulação de Ícone de Streaming */
-        .platform-icon {
-            width: 28px;
-            height: 28px;
-            background-color: #2f3542;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            font-weight: bold;
-            color: #fff;
-        }
-
-        .platform-name {
-            font-size: 0.95rem;
-            font-weight: 600;
-        }
-
-        .platform-status {
-            font-size: 0.85rem;
-            color: #a4b0be;
-        }
-
-        /* O Ponto de Conversão: Poltrona 42 */
-        .conversion-card {
-            background: linear-gradient(135deg, #191d29 0%, #0e1118 100%);
-            border: 2px solid #ff9f43;
-            border-radius: 14px;
-            padding: 20px;
-            text-align: center;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 10px 25px rgba(255, 159, 67, 0.1);
-        }
-
-        .conversion-card::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255, 159, 67, 0.08) 0%, transparent 70%);
-            pointer-events: none;
-        }
-
-        .conversion-title {
-            font-size: 1.1rem;
-            font-weight: 800;
-            margin-bottom: 4px;
-            color: #ffffff;
-        }
-
-        .conversion-subtitle {
-            font-size: 0.85rem;
-            color: #ced6e0;
-            margin-bottom: 16px;
-            line-height: 1.4;
-        }
-
-        .cta-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            padding: 16px;
-            background-color: #ff9f43;
-            color: #090b0e;
-            border: none;
-            border-radius: 12px;
-            font-size: 1rem;
-            font-weight: 800;
-            text-decoration: none;
-            transition: background-color 0.2s, transform 0.1s;
-            box-shadow: 0 4px 15px rgba(255, 159, 67, 0.3);
-        }
-
-        .cta-button:active {
-            transform: scale(0.98);
-            background-color: #e08b36;
-        }
+        /* Bloco de Resultado */
+        .movie-result { background-color: #11141a; border-radius: 16px; border: 1px solid #1c202b; padding: 20px; display: none; flex-direction: column; gap: 20px; }
+        .movie-info { display: flex; gap: 16px; }
+        .movie-poster { width: 105px; height: 155px; background-color: #1d222f; border-radius: 10px; object-fit: cover; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4); }
+        .movie-details { display: flex; flex-direction: column; justify-content: center; flex: 1; }
+        .movie-title { font-size: 1.3rem; font-weight: 700; line-height: 1.2; margin-bottom: 6px; }
+        .movie-meta { font-size: 0.85rem; color: #a4b0be; margin-bottom: 10px; }
+        .movie-synopsis { font-size: 0.85rem; color: #ced6e0; line-height: 1.4; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+        
+        /* Seção de Streaming */
+        .streaming-section { display: flex; flex-direction: column; gap: 10px; }
+        .section-title { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1px; color: #747d8c; font-weight: 700; margin-bottom: 2px; }
+        .platforms-list { display: flex; flex-direction: column; gap: 8px; }
+        .platform-item { display: flex; justify-content: space-between; align-items: center; padding: 14px 16px; background-color: #171b24; border: 1px solid #222836; border-radius: 12px; }
+        .platform-left { display: flex; align-items: center; gap: 12px; }
+        .platform-logo { width: 28px; height: 28px; border-radius: 6px; object-fit: cover; }
+        .platform-name { font-size: 0.95rem; font-weight: 600; }
+        .platform-status { font-size: 0.85rem; color: #a4b0be; }
+        .no-providers { font-size: 0.9rem; color: #a4b0be; text-align: center; padding: 10px; background: #15181f; border-radius: 8px; }
+        
+        /* Conversão: Poltrona 42 */
+        .conversion-card { background: linear-gradient(135deg, #191d29 0%, #0e1118 100%); border: 2px solid #ff9f43; border-radius: 14px; padding: 20px; text-align: center; position: relative; overflow: hidden; box-shadow: 0 10px 25px rgba(255, 159, 67, 0.1); margin-top: 10px;}
+        .conversion-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 4px; color: #ffffff; }
+        .conversion-subtitle { font-size: 0.85rem; color: #ced6e0; margin-bottom: 16px; line-height: 1.4; }
+        .cta-button { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 16px; background-color: #ff9f43; color: #090b0e; border: none; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: background-color 0.2s, transform 0.1s; box-shadow: 0 4px 15px rgba(255, 159, 67, 0.3); }
+        .cta-button:active { transform: scale(0.98); background-color: #e08b36; }
     </style>
 </head>
 <body>
 
     <div class="app-container">
-        
         <header class="header">
             <a href="https://instagram.com/_felipeindica" target="_blank" class="profile-tag">@_felipeindica</a>
         </header>
 
         <div class="search-container">
-            <input type="text" class="search-input" placeholder="Digite o nome do filme ou série...">
+            <input type="text" id="searchInput" class="search-input" placeholder="Digite o nome do filme ou série...">
         </div>
+        
+        <div id="loadingIndicator" class="loading">Buscando na base de dados...</div>
 
-        <main class="movie-result">
-            
+        <main id="movieResult" class="movie-result">
             <div class="movie-info">
-                <img src="https://via.placeholder.com/105x155/1d222f/ffffff?text=Poster" alt="Pôster do Filme" class="movie-poster">
+                <img id="moviePoster" src="" alt="Pôster" class="movie-poster">
                 <div class="movie-details">
-                    <h1 class="movie-title">Interestelar</h1>
-                    <p class="movie-meta">2014 • 2h 49min</p>
-                    <p class="movie-synopsis">As reservas naturais da Terra estão se esgotando e um grupo de astronautas recebe a missão de verificar possíveis planetas para receberem a população mundial.</p>
+                    <h1 id="movieTitle" class="movie-title"></h1>
+                    <p id="movieMeta" class="movie-meta"></p>
+                    <p id="movieSynopsis" class="movie-synopsis"></p>
                 </div>
             </div>
 
             <div class="streaming-section">
-                <h2 class="section-title">Plataformas Oficiais</h2>
-                
-                <div class="platform-item">
-                    <div class="platform-left">
-                        <div class="platform-icon" style="background-color: #e50914;">N</div>
-                        <span class="platform-name">Netflix</span>
+                <h2 class="section-title">Onde Assistir Oficialmente</h2>
+                <div id="platformsList" class="platforms-list">
                     </div>
-                    <span class="platform-status">Assinatura</span>
-                </div>
-
-                <div class="platform-item">
-                    <div class="platform-left">
-                        <div class="platform-icon" style="background-color: #00a8e1;">P</div>
-                        <span class="platform-name">Prime Video</span>
-                    </div>
-                    <span class="platform-status">Aluguel (R$ 11,90)</span>
-                </div>
             </div>
 
             <div class="conversion-card">
-                <h3 class="conversion-title">Quer a melhor experiência de cinema?</h3>
+                <h3 class="conversion-title">Quer a melhor experiência?</h3>
                 <p class="conversion-subtitle">Assista a este e milhares de outros conteúdos sem depender de várias assinaturas.</p>
-                <a href="#" class="cta-button">🍿 Assistir na Poltrona 42</a>
+                <a href="SUA_PAGINA_DE_VENDAS_AQUI" class="cta-button">🍿 Assistir na Poltrona 42</a>
             </div>
-
         </main>
-
     </div>
 
-</body>
-</html>
+    <script>
+        const API_KEY = '674f80dffb5bc79391154b02a822fec8';
+        const BASE_URL = 'https://api.themoviedb.org/3';
+        const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+
+        // Elementos do DOM
+        const searchInput = document.getElementById('searchInput');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const movieResult = document.getElementById('movieResult');
+        const moviePoster = document.getElementById('moviePoster');
+        const movieTitle = document.getElementById('movieTitle');
+        const movieMeta = document.getElementById('movieMeta');
+        const movieSynopsis = document.getElementById('movieSynopsis');
+        const platformsList = document.getElementById('platformsList');
+
+        let typingTimer;
+
+        // Ouve a digitação do usuário e dispara a busca
+        searchInput.addEventListener('input', () => {
+            clearTimeout(typingTimer);
+            const query = searchInput.value.trim();
+            
+            if (query.length < 3) {
+                movieResult.style.display = 'none';
+                return;
+            }
+
+            loadingIndicator.style.display = 'block';
+            movieResult.style.display = 'none';
+            
+            // Aguarda o usuário parar de digitar por 500ms antes de chamar a API
+            typingTimer = setTimeout(() => {
+                searchMovieOrShow(query);
+            }, 500);
+        });
+
+        // Passo 1: Busca o Filme ou Série
+        async function searchMovieOrShow(query) {
+            try {
+                const response = await fetch(`${BASE_URL}/search/multi?api_key=${API_KEY}&language=pt-BR&query=${encodeURIComponent(query)}`);
+                const data
