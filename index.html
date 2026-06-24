@@ -5,114 +5,235 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Poltrona 42 - Onde Assistir</title>
     <style>
-        /* Animações e Estilos Globais */
+        /* Animações Globais */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         @keyframes pulseGlow { 0% { box-shadow: 0 0 0 0 rgba(255, 159, 67, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(255, 159, 67, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 159, 67, 0); } }
         @keyframes shimmer { 0% { left: -100%; } 100% { left: 100%; } }
         @keyframes scrollMarquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
+        /* Reset e Estilos de Base */
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; }
         
         body { 
             background: linear-gradient(-45deg, #090b0e, #141824, #0a0d14, #090b0e);
             background-size: 400% 400%;
             animation: gradientBG 15s ease infinite;
-            color: #f5f6fa; display: flex; justify-content: center; padding: 16px; min-height: 100vh; overflow-x: hidden;
+            color: #f5f6fa; 
+            display: flex; 
+            justify-content: center; 
+            padding: 16px; 
+            min-height: 100vh; 
+            overflow-x: hidden;
         }
 
         .app-container { width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 24px; padding-bottom: 60px; animation: fadeIn 0.6s ease-out; }
 
-        /* Componentes de Marca */
+        /* Header e Hero Section */
+        .header { text-align: center; margin-top: 10px; display: flex; flex-direction: column; gap: 16px; }
+        
         .brand-logo { font-size: 1.1rem; font-weight: 800; color: #ff9f43; text-decoration: none; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; display: inline-block; transition: transform 0.2s; }
+        .brand-logo:active { transform: scale(0.95); }
+        
         .hero-title { font-size: 1.8rem; font-weight: 800; line-height: 1.2; color: #ffffff; margin-top: 10px;}
         .hero-subtitle { font-size: 0.95rem; color: #a4b0be; margin-top: 6px; }
 
-        /* Busca */
+        /* Barra de Busca Avançada */
         .search-wrapper { position: relative; width: 100%; z-index: 10; }
         .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; fill: #747d8c; transition: fill 0.3s; }
-        .clear-icon { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); width: 22px; height: 22px; fill: #747d8c; cursor: pointer; display: none; }
-        .search-input { width: 100%; padding: 18px 48px; background-color: rgba(21, 24, 31, 0.8); backdrop-filter: blur(10px); border: 1px solid #2a303c; border-radius: 16px; color: #fff; font-size: 1.05rem; outline: none; }
         
-        /* Overlay de Instrução (Vídeo Telegram) */
-        #instructionOverlay { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(9, 11, 14, 0.95); z-index: 1000; 
-            display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px;
+        .clear-icon { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); width: 22px; height: 22px; fill: #747d8c; cursor: pointer; display: none; transition: fill 0.2s, transform 0.2s; }
+        .clear-icon:hover { fill: #ff9f43; }
+        .clear-icon:active { transform: translateY(-50%) scale(0.85); }
+
+        .search-input { width: 100%; padding: 18px 48px; background-color: rgba(21, 24, 31, 0.8); backdrop-filter: blur(10px); border: 1px solid #2a303c; border-radius: 16px; color: #fff; font-size: 1.05rem; outline: none; transition: all 0.3s ease; box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+        .search-input:focus { border-color: #ff9f43; box-shadow: 0 0 0 3px rgba(255, 159, 67, 0.2), 0 8px 24px rgba(0,0,0,0.4); }
+        .search-input:focus + .search-icon { fill: #ff9f43; }
+
+        /* Chips de Categoria */
+        .category-chips { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
+        .category-chips::-webkit-scrollbar { display: none; }
+        .chip { background-color: #1c202b; color: #ced6e0; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; white-space: nowrap; border: 1px solid #2a303c; transition: all 0.2s; }
+        .chip:active { transform: scale(0.95); background-color: #ff9f43; color: #000; border-color: #ff9f43; }
+
+        /* Loading Animado */
+        .loading { text-align: center; display: none; margin-top: 20px; }
+        .spinner { width: 30px; height: 30px; border: 3px solid rgba(255, 159, 67, 0.3); border-radius: 50%; border-top-color: #ff9f43; animation: spin 1s ease-in-out infinite; margin: 0 auto; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* TELA INICIAL */
+        #homeState { display: flex; flex-direction: column; gap: 30px; animation: fadeIn 0.5s ease-out; }
+        .section-title { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
+        
+        .trending-scroll { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 15px; scrollbar-width: none; scroll-snap-type: x mandatory; }
+        .trending-item { flex: 0 0 auto; width: 110px; cursor: pointer; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); scroll-snap-align: start; position: relative;}
+        .trending-item:active { transform: scale(0.92); }
+        .trending-poster { width: 100%; height: 160px; border-radius: 12px; object-fit: cover; box-shadow: 0 6px 12px rgba(0,0,0,0.5); transition: box-shadow 0.3s; }
+        
+        /* Conversão: Poltrona 42 com Dois Botões */
+        .conversion-card { 
+            background: linear-gradient(145deg, #1f140b 0%, #120b05 100%); border: 1px solid rgba(255, 159, 67, 0.3); border-radius: 18px; padding: 24px 20px; text-align: center; position: relative; overflow: hidden; box-shadow: 0 15px 30px rgba(0,0,0,0.5); 
         }
-        .close-overlay { position: absolute; top: 20px; right: 20px; color: #fff; font-size: 2rem; cursor: pointer; }
-        .instruction-video { width: 100%; max-width: 360px; border-radius: 16px; border: 2px solid #ff9f43; box-shadow: 0 10px 30px rgba(0,0,0,0.5); margin-bottom: 20px; }
+        .conversion-title { font-size: 1.2rem; font-weight: 900; margin-bottom: 6px; color: #ffffff; }
+        .conversion-title span { color: #ff9f43; }
+        .conversion-subtitle { font-size: 0.9rem; color: #ced6e0; margin-bottom: 15px; line-height: 1.4; }
+        
+        /* Estilização dos Dois Botões (Telegram e Smart TV) */
+        .cta-group { display: flex; flex-direction: column; gap: 12px; width: 100%; margin-top: 5px; }
+        
+        .btn-telegram {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px;
+            background: linear-gradient(90deg, #27A7E7, #0088cc); color: #fff; border: none; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 6px 20px rgba(0, 136, 204, 0.25);
+        }
+        .btn-telegram:active { transform: scale(0.96); box-shadow: 0 2px 10px rgba(0, 136, 204, 0.3); }
 
-        /* Botões */
-        .btn-telegram { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px; background: linear-gradient(90deg, #27A7E7, #0088cc); color: #fff; border-radius: 12px; font-weight: 800; text-decoration: none; text-transform: uppercase; margin-top: 10px;}
-        .btn-tv { display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px; background: linear-gradient(90deg, #ff9f43, #ff7b00); color: #fff; border-radius: 12px; font-weight: 800; text-decoration: none; text-transform: uppercase; animation: pulseGlow 2.5s infinite; }
-        .cta-group { display: flex; flex-direction: column; gap: 12px; width: 100%; }
+        .btn-tv {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px;
+            background: linear-gradient(90deg, #ff9f43, #ff7b00); color: #fff; border: none; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; position: relative; overflow: hidden; animation: pulseGlow 2.5s infinite; transition: transform 0.2s;
+        }
+        .btn-tv::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); animation: shimmer 3s infinite; }
+        .btn-tv:active { transform: scale(0.96); }
 
-        /* Elementos da página */
-        #homeState, .movie-result { display: flex; flex-direction: column; gap: 30px; }
-        .conversion-card { background: linear-gradient(145deg, #1f140b 0%, #120b05 100%); border: 1px solid rgba(255, 159, 67, 0.3); border-radius: 18px; padding: 24px 20px; text-align: center; }
-        .section-title { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 14px; }
-        .trending-scroll { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 15px; }
-        .trending-poster { width: 110px; height: 160px; border-radius: 12px; object-fit: cover; }
-        .movie-result { background: rgba(17, 20, 26, 0.9); border-radius: 20px; padding: 20px; display: none; }
-        .movie-info { display: flex; gap: 16px; }
-        .movie-poster { width: 110px; height: 165px; border-radius: 12px; object-fit: cover; }
-        .movie-title { font-size: 1.4rem; font-weight: 800; color: #fff; }
-        .movie-synopsis { font-size: 0.85rem; color: #a4b0be; }
-        .platform-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #1c202b; border-radius: 14px; margin-bottom: 10px;}
+        /* Scroll Reveal (Efeito de ir aparecendo) */
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        /* Scroll Infinito Automático (Marquee) */
+        .genre-section { display: flex; flex-direction: column; overflow: hidden; }
+        .marquee-container { width: 100%; overflow: hidden; position: relative; padding-bottom: 10px;}
+        .marquee-container::before, .marquee-container::after { content: ""; position: absolute; top: 0; width: 30px; height: 100%; z-index: 2; pointer-events: none; }
+        .marquee-container::before { left: 0; background: linear-gradient(to right, #090b0e, transparent); }
+        .marquee-container::after { right: 0; background: linear-gradient(to left, #090b0e, transparent); }
+        
+        .marquee-track { display: flex; gap: 12px; width: max-content; animation: scrollMarquee 40s linear infinite; }
+        .marquee-track.reverse { animation-direction: reverse; }
+        
+        .marquee-item { width: 105px; flex-shrink: 0; cursor: pointer; transition: transform 0.2s; }
+        .marquee-item img { width: 100%; height: 155px; border-radius: 10px; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+        .marquee-item:active { transform: scale(0.92); }
+
+        /* Bloco de Resultado */
+        .movie-result { background-color: rgba(17, 20, 26, 0.9); backdrop-filter: blur(10px); border-radius: 20px; border: 1px solid #2a303c; padding: 20px; display: none; flex-direction: column; gap: 24px; animation: fadeIn 0.4s ease-out; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
+        .movie-info { display: flex; gap: 16px; cursor: pointer; transition: transform 0.2s;}
+        .movie-info:active { transform: scale(0.98); }
+        .movie-poster { width: 110px; height: 165px; border-radius: 12px; object-fit: cover; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); }
+        .movie-details { display: flex; flex-direction: column; justify-content: center; flex: 1; }
+        .movie-title { font-size: 1.4rem; font-weight: 800; line-height: 1.1; margin-bottom: 8px; color: #fff; }
+        .movie-meta { font-size: 0.85rem; color: #ff9f43; margin-bottom: 10px; font-weight: 600; }
+        .movie-synopsis { font-size: 0.85rem; color: #a4b0be; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; overflow: hidden; }
+        
+        /* Seção de Streaming */
+        .platforms-list { display: flex; flex-direction: column; gap: 10px; }
+        .platform-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background-color: #1c202b; border: 1px solid #2a303c; border-radius: 14px; }
+        .platform-left { display: flex; align-items: center; gap: 12px; }
+        .platform-logo { width: 32px; height: 32px; border-radius: 8px; object-fit: cover; box-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+        .platform-name { font-size: 0.95rem; font-weight: 600; color: #fff; }
+        .platform-status { font-size: 0.8rem; color: #747d8c; font-weight: 600; text-transform: uppercase; background: #15181f; padding: 4px 8px; border-radius: 6px; }
+        .no-providers { font-size: 0.9rem; color: #a4b0be; text-align: center; padding: 15px; background: rgba(255, 60, 60, 0.1); border: 1px solid rgba(255, 60, 60, 0.2); border-radius: 12px; }
     </style>
 </head>
 <body>
 
-    <!-- Overlay de Instrução (Oculto por padrão) -->
-    <div id="instructionOverlay">
-        <span class="close-overlay" onclick="closeOverlay()">×</span>
-        <h2 style="margin-bottom: 20px; color: #fff;">Como assistir no Telegram</h2>
-        <video class="instruction-video" autoplay muted playsinline loop>
-            <source src="https://res.cloudinary.com/dxpygpngo/video/upload/v1782309153/IMG_0039_h0wgrc.mov" type="video/mp4">
-        </video>
-        <a href="https://pay.lowify.com.br/checkout?product_id=TzLxa0" target="_blank" class="btn-telegram">
-            Assinar Plano Telegram
-        </a>
-    </div>
-
     <div class="app-container">
+        <!-- Header -->
         <header class="header">
             <a href="#" onclick="resetToHome(); return false;" class="brand-logo">💺 Poltrona 42</a>
             <div>
                 <h1 class="hero-title">O que você vai<br>assistir hoje?</h1>
+                <p class="hero-subtitle">Descubra em qual streaming o filme está.</p>
             </div>
         </header>
 
+        <!-- Busca Avançada -->
         <div class="search-wrapper">
             <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
             <input type="text" id="searchInput" class="search-input" placeholder="Digite o nome do filme ou série...">
             <svg class="clear-icon" id="clearSearch" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
         </div>
+
+        <div class="category-chips">
+            <div class="chip" onclick="autoSearch('Ação')">🔥 Ação</div>
+            <div class="chip" onclick="autoSearch('Terror')">👻 Terror</div>
+            <div class="chip" onclick="autoSearch('Comédia')">😂 Comédia</div>
+            <div class="chip" onclick="autoSearch('Ficção Científica')">👽 Ficção</div>
+        </div>
         
+        <div id="loadingIndicator" class="loading"><div class="spinner"></div></div>
+
+        <!-- TELA INICIAL -->
         <div id="homeState">
-            <div class="conversion-card">
+            
+            <div class="reveal">
+                <h2 class="section-title">🔥 Em Alta Hoje</h2>
+                <div class="trending-scroll" id="trendingList"></div>
+            </div>
+
+            <!-- Card de Conversão: HOME -->
+            <div class="conversion-card reveal">
                 <h3 class="conversion-title">Liberar acesso <span>imediato:</span></h3>
+                <p class="conversion-subtitle">Tenha todos os filmes, séries e animes em um só lugar. Escolha onde prefere assistir:</p>
                 <div class="cta-group">
-                    <button onclick="showTelegramOverlay()" class="btn-telegram">🎬 Ver como funciona (Telegram)</button>
-                    <a href="https://pay.lowify.com.br/checkout?product_id=6jU9sA" target="_blank" class="btn-tv">📺 App Smart TV</a>
+                    <a href="https://pay.lowify.com.br/checkout?product_id=TzLxa0" target="_blank" class="btn-telegram">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.662 8.446c-.23 2.373-1.2 8.084-1.69 10.743-.2.11-.75.32-1.03.35-.87.08-1.53-.57-2.37-1.12-1.32-.87-2.07-1.41-3.34-2.25-1.48-.98-.52-1.52.33-2.39.22-.23 4.07-3.73 4.14-4.04.01-.04.02-.21-.1-.28-.12-.08-.28-.03-.41 0-.18.04-2.98 1.88-8.38 5.52-.79.54-1.51.81-2.16.8-.7-.02-2.07-.4-3.08-.73-1.24-.4-2.23-.62-2.14-1.3.05-.36.54-.72 1.47-1.11 5.78-2.52 9.63-4.18 11.56-4.99 5.5-2.29 6.64-2.69 7.39-2.7.16 0 .54.04.78.24.21.18.27.42.3.63.03.2.06.42.03.68z"/></svg>
+                        Plano Telegram
+                    </a>
+                    <a href="https://pay.lowify.com.br/checkout?product_id=6jU9sA" target="_blank" class="btn-tv">
+                        📺 App Smart TV
+                    </a>
                 </div>
             </div>
-            <div id="trendingList" class="trending-scroll"></div>
+
+            <div class="genre-section reveal">
+                <h2 class="section-title">⚔️ Ação e Aventura</h2>
+                <div class="marquee-container">
+                    <div class="marquee-track" id="track-action"></div>
+                </div>
+            </div>
+
+            <div class="genre-section reveal">
+                <h2 class="section-title">😂 Comédia</h2>
+                <div class="marquee-container">
+                    <div class="marquee-track reverse" id="track-comedy"></div>
+                </div>
+            </div>
+
+            <div class="genre-section reveal">
+                <h2 class="section-title">👻 Terror e Suspense</h2>
+                <div class="marquee-container">
+                    <div class="marquee-track" id="track-horror"></div>
+                </div>
+            </div>
         </div>
 
+        <!-- Bloco de Resultado -->
         <main id="movieResult" class="movie-result">
-            <div class="movie-info">
+            <div class="movie-info" onclick="document.querySelector('.btn-tv').scrollIntoView({behavior: 'smooth'})">
                 <img id="moviePoster" src="" alt="Pôster" class="movie-poster">
                 <div class="movie-details">
                     <h1 id="movieTitle" class="movie-title"></h1>
+                    <p id="movieMeta" class="movie-meta"></p>
                     <p id="movieSynopsis" class="movie-synopsis"></p>
                 </div>
             </div>
-            <div id="platformsList"></div>
-            <div class="conversion-card">
+
+            <div class="streaming-section">
+                <h2 class="section-title">Onde Assistir</h2>
+                <div id="platformsList" class="platforms-list"></div>
+            </div>
+
+            <!-- Card de Conversão: RESULTADO DA BUSCA -->
+            <div class="conversion-card" style="margin-top: 0;">
+                <h3 class="conversion-title">Liberar acesso <span>imediato:</span></h3>
+                <p class="conversion-subtitle">Escolha onde você prefere assistir a este título agora mesmo.</p>
+                
                 <div class="cta-group">
-                    <button onclick="showTelegramOverlay()" class="btn-telegram">🎬 Ver como funciona (Telegram)</button>
-                    <a href="https://pay.lowify.com.br/checkout?product_id=6jU9sA" target="_blank" class="btn-tv">📺 App Smart TV</a>
+                    <a href="https://pay.lowify.com.br/checkout?product_id=TzLxa0" target="_blank" class="btn-telegram">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.662 8.446c-.23 2.373-1.2 8.084-1.69 10.743-.2.11-.75.32-1.03.35-.87.08-1.53-.57-2.37-1.12-1.32-.87-2.07-1.41-3.34-2.25-1.48-.98-.52-1.52.33-2.39.22-.23 4.07-3.73 4.14-4.04.01-.04.02-.21-.1-.28-.12-.08-.28-.03-.41 0-.18.04-2.98 1.88-8.38 5.52-.79.54-1.51.81-2.16.8-.7-.02-2.07-.4-3.08-.73-1.24-.4-2.23-.62-2.14-1.3.05-.36.54-.72 1.47-1.11 5.78-2.52 9.63-4.18 11.56-4.99 5.5-2.29 6.64-2.69 7.39-2.7.16 0 .54.04.78.24.21.18.27.42.3.63.03.2.06.42.03.68z"/></svg>
+                        Plano Telegram
+                    </a>
+                    <a href="https://pay.lowify.com.br/checkout?product_id=6jU9sA" target="_blank" class="btn-tv">
+                        📺 App Smart TV
+                    </a>
                 </div>
             </div>
         </main>
@@ -123,18 +244,184 @@
         const BASE_URL = 'https://api.themoviedb.org/3';
         const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
 
-        function showTelegramOverlay() { document.getElementById('instructionOverlay').style.display = 'flex'; }
-        function closeOverlay() { document.getElementById('instructionOverlay').style.display = 'none'; }
-        
+        const searchInput = document.getElementById('searchInput');
+        const clearSearch = document.getElementById('clearSearch');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const homeState = document.getElementById('homeState');
+        const trendingList = document.getElementById('trendingList');
+        const movieResult = document.getElementById('movieResult');
+        const moviePoster = document.getElementById('moviePoster');
+        const movieTitle = document.getElementById('movieTitle');
+        const movieMeta = document.getElementById('movieMeta');
+        const movieSynopsis = document.getElementById('movieSynopsis');
+        const platformsList = document.getElementById('platformsList');
+
+        let typingTimer;
+
+        window.onload = () => { 
+            fetchTrending(); 
+            setupScrollReveal();
+            fetchGenreMarquee(28, 'track-action');
+            fetchGenreMarquee(35, 'track-comedy');
+            fetchGenreMarquee(27, 'track-horror');
+        };
+
+        function setupScrollReveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+            }, { threshold: 0.1 });
+            reveals.forEach(reveal => observer.observe(reveal));
+            setTimeout(() => {
+                if(reveals[0]) reveals[0].classList.add('active');
+                if(reveals[1]) reveals[1].classList.add('active');
+            }, 100);
+        }
+
         function resetToHome() {
-            document.getElementById('movieResult').style.display = 'none';
-            document.getElementById('homeState').style.display = 'flex';
+            searchInput.value = '';
+            clearSearch.style.display = 'none';
+            movieResult.style.display = 'none';
+            homeState.style.display = 'flex';
+            loadingIndicator.style.display = 'none';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // [Restante da lógica JS de busca permanece a mesma...]
-        // (Nota: O código de busca e preenchimento de cards que enviamos anteriormente deve ser mantido abaixo)
-        // Certifique-se de manter as funções searchMovieOrShow, fetchTrending, etc.
+        clearSearch.addEventListener('click', () => { resetToHome(); searchInput.focus(); });
+
+        function autoSearch(term) {
+            searchInput.value = term;
+            clearSearch.style.display = 'block';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            triggerSearch(term);
+        }
+
+        async function fetchGenreMarquee(genreId, containerId) {
+            try {
+                const response = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&language=pt-BR&with_genres=${genreId}&sort_by=popularity.desc`);
+                const data = await response.json();
+                const container = document.getElementById(containerId);
+                let htmlContent = '';
+                data.results.forEach(media => {
+                    if(media.poster_path) {
+                        const safeTitle = (media.title || media.name).replace(/'/g, "\\'");
+                        htmlContent += `<div class="marquee-item" onclick="autoSearch('${safeTitle}')"><img src="${IMAGE_BASE_URL}${media.poster_path}" alt="Pôster"></div>`;
+                    }
+                });
+                container.innerHTML = htmlContent + htmlContent;
+            } catch (error) { console.error("Erro na categoria:", error); }
+        }
+
+        async function fetchTrending() {
+            try {
+                const response = await fetch(`${BASE_URL}/trending/all/day?api_key=${API_KEY}&language=pt-BR`);
+                const data = await response.json();
+                const results = data.results.filter(item => item.media_type === 'movie' || item.media_type === 'tv').slice(0, 10);
+                trendingList.innerHTML = '';
+                results.forEach(media => {
+                    if(media.poster_path) {
+                        const div = document.createElement('div');
+                        div.className = 'trending-item';
+                        div.innerHTML = `<img src="${IMAGE_BASE_URL}${media.poster_path}" class="trending-poster" alt="Pôster">`;
+                        div.onclick = () => {
+                            const safeTitle = (media.title || media.name).replace(/'/g, "\\'");
+                            autoSearch(safeTitle);
+                        };
+                        trendingList.appendChild(div);
+                    }
+                });
+            } catch (error) { console.error("Erro:", error); }
+        }
+
+        searchInput.addEventListener('input', () => {
+            clearTimeout(typingTimer);
+            const query = searchInput.value.trim();
+            clearSearch.style.display = query.length > 0 ? 'block' : 'none';
+            if (query.length < 3) { if(query.length === 0) resetToHome(); return; }
+            triggerSearch(query);
+        });
+
+        function triggerSearch(query) {
+            loadingIndicator.style.display = 'block';
+            homeState.style.display = 'none';
+            movieResult.style.display = 'none';
+            typingTimer = setTimeout(() => { searchMovieOrShow(query); }, 600);
+        }
+
+        async function searchMovieOrShow(query) {
+            try {
+                const response = await fetch(`${BASE_URL}/search/multi?api_key=${API_KEY}&language=pt-BR&query=${encodeURIComponent(query)}`);
+                const data = await response.json();
+                const results = data.results.filter(item => item.media_type === 'movie' || item.media_type === 'tv');
+
+                if (results.length > 0) {
+                    const firstResult = results[0];
+                    updateUIWithMediaDetails(firstResult);
+                    fetchWatchProviders(firstResult.id, firstResult.media_type);
+                } else {
+                    loadingIndicator.style.display = 'none';
+                }
+            } catch (error) { loadingIndicator.style.display = 'none'; }
+        }
+
+        function updateUIWithMediaDetails(media) {
+            const title = media.title || media.name;
+            const releaseDate = media.release_date || media.first_air_date || "";
+            const year = releaseDate ? releaseDate.split('-')[0] : "N/A";
+            const posterPath = media.poster_path ? `${IMAGE_BASE_URL}${media.poster_path}` : 'https://via.placeholder.com/110x165/1d222f/ffffff?text=Sem+Capa';
+
+            moviePoster.src = posterPath;
+            movieTitle.textContent = title;
+            movieMeta.textContent = `${year} • ${media.media_type === 'movie' ? 'Filme' : 'Série'}`;
+            movieSynopsis.textContent = media.overview || "Sinopse não disponível.";
+            
+            loadingIndicator.style.display = 'none';
+            homeState.style.display = 'none';
+            movieResult.style.display = 'flex';
+        }
+
+        async function fetchWatchProviders(id, mediaType) {
+            try {
+                const response = await fetch(`${BASE_URL}/${mediaType}/${id}/watch/providers?api_key=${API_KEY}`);
+                const data = await response.json();
+                platformsList.innerHTML = ''; 
+
+                if (data.results && data.results.BR) {
+                    const providersBR = data.results.BR;
+                    let addedProviders = new Set();
+
+                    const addProvider = (provider, type) => {
+                        if (!addedProviders.has(provider.provider_id)) {
+                            platformsList.appendChild(createProviderElement(provider, type));
+                            addedProviders.add(provider.provider_id);
+                        }
+                    };
+
+                    if (providersBR.flatrate) providersBR.flatrate.forEach(p => addProvider(p, 'Assinatura'));
+                    if (providersBR.rent) providersBR.rent.forEach(p => addProvider(p, 'Aluguel'));
+
+                    if (addedProviders.size === 0) platformsList.innerHTML = '<div class="no-providers">Não disponível em streamings oficiais no Brasil.</div>';
+                } else {
+                    platformsList.innerHTML = '<div class="no-providers">Não disponível em streamings oficiais no Brasil.</div>';
+                }
+            } catch (error) {
+                platformsList.innerHTML = '<div class="no-providers">Erro ao carregar plataformas.</div>';
+            }
+        }
+
+        function createProviderElement(provider, type) {
+            const div = document.createElement('div');
+            div.className = 'platform-item';
+            const logoUrl = `${IMAGE_BASE_URL}${provider.logo_path}`;
+            div.innerHTML = `
+                <div class="platform-left">
+                    <img src="${logoUrl}" alt="${provider.provider_name}" class="platform-logo">
+                    <span class="platform-name">${provider.provider_name}</span>
+                </div>
+                <span class="platform-status">${type}</span>
+            `;
+            return div;
+        }
     </script>
 </body>
 </html>
