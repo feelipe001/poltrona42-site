@@ -20,7 +20,16 @@
         /* Loading */
         .loading { text-align: center; font-size: 0.9rem; color: #a4b0be; display: none; margin-top: 10px; }
 
-        /* Bloco de Resultado */
+        /* TELA INICIAL (Em Alta) */
+        #homeState { display: flex; flex-direction: column; gap: 20px; }
+        .trending-title { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .trending-scroll { display: flex; gap: 12px; overflow-x: auto; padding-bottom: 10px; scrollbar-width: none; }
+        .trending-scroll::-webkit-scrollbar { display: none; }
+        .trending-item { flex: 0 0 auto; width: 100px; cursor: pointer; transition: transform 0.2s; }
+        .trending-item:active { transform: scale(0.95); }
+        .trending-poster { width: 100%; height: 150px; border-radius: 10px; object-fit: cover; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+
+        /* Bloco de Resultado (Inicia oculto) */
         .movie-result { background-color: #11141a; border-radius: 16px; border: 1px solid #1c202b; padding: 20px; display: none; flex-direction: column; gap: 20px; }
         .movie-info { display: flex; gap: 16px; }
         .movie-poster { width: 105px; height: 155px; background-color: #1d222f; border-radius: 10px; object-fit: cover; box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4); }
@@ -40,8 +49,8 @@
         .platform-status { font-size: 0.85rem; color: #a4b0be; }
         .no-providers { font-size: 0.9rem; color: #a4b0be; text-align: center; padding: 10px; background: #15181f; border-radius: 8px; }
         
-        /* Conversão: Poltrona 42 */
-        .conversion-card { background: linear-gradient(135deg, #191d29 0%, #0e1118 100%); border: 2px solid #ff9f43; border-radius: 14px; padding: 20px; text-align: center; position: relative; overflow: hidden; box-shadow: 0 10px 25px rgba(255, 159, 67, 0.1); margin-top: 10px;}
+        /* Conversão: Poltrona 42 (Agora fixo na Home também) */
+        .conversion-card { background: linear-gradient(135deg, #191d29 0%, #0e1118 100%); border: 2px solid #ff9f43; border-radius: 14px; padding: 20px; text-align: center; position: relative; overflow: hidden; box-shadow: 0 10px 25px rgba(255, 159, 67, 0.1); margin-top: 5px;}
         .conversion-title { font-size: 1.1rem; font-weight: 800; margin-bottom: 4px; color: #ffffff; }
         .conversion-subtitle { font-size: 0.85rem; color: #ced6e0; margin-bottom: 16px; line-height: 1.4; }
         .cta-button { display: inline-flex; align-items: center; justify-content: center; width: 100%; padding: 16px; background-color: #ff9f43; color: #090b0e; border: none; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; transition: background-color 0.2s, transform 0.1s; box-shadow: 0 4px 15px rgba(255, 159, 67, 0.3); }
@@ -51,17 +60,38 @@
 <body>
 
     <div class="app-container">
+        <!-- Header -->
         <header class="header">
             <a href="https://instagram.com/_felipeindica" target="_blank" class="profile-tag">@_felipeindica</a>
         </header>
 
+        <!-- Input de Busca -->
         <div class="search-container">
-            <input type="text" id="searchInput" class="search-input" placeholder="Digite o nome do filme ou série...">
+            <input type="text" id="searchInput" class="search-input" placeholder="Qual filme ou série quer assistir?">
         </div>
         
         <div id="loadingIndicator" class="loading">Buscando na base de dados...</div>
 
+        <!-- TELA INICIAL (O que aparece antes de buscar) -->
+        <div id="homeState">
+            <div>
+                <h2 class="trending-title">🔥 Em Alta Hoje</h2>
+                <div class="trending-scroll" id="trendingList">
+                    <!-- Filmes em alta serão injetados aqui -->
+                </div>
+            </div>
+
+            <!-- Destaque Estratégico: Poltrona 42 (Na Home) -->
+            <div class="conversion-card">
+                <h3 class="conversion-title">Quer a melhor experiência?</h3>
+                <p class="conversion-subtitle">Assista aos melhores filmes e séries sem depender de várias assinaturas caras.</p>
+                <a href="SUA_PAGINA_DE_VENDAS_AQUI" class="cta-button">🍿 Conhecer a Poltrona 42</a>
+            </div>
+        </div>
+
+        <!-- Bloco de Resultado (Aparece após buscar ou clicar num filme) -->
         <main id="movieResult" class="movie-result">
+            <!-- Ficha Técnica -->
             <div class="movie-info">
                 <img id="moviePoster" src="" alt="Pôster" class="movie-poster">
                 <div class="movie-details">
@@ -71,20 +101,24 @@
                 </div>
             </div>
 
+            <!-- Plataformas Oficiais -->
             <div class="streaming-section">
                 <h2 class="section-title">Onde Assistir Oficialmente</h2>
                 <div id="platformsList" class="platforms-list">
-                    </div>
+                    <!-- As plataformas serão injetadas aqui pelo JS -->
+                </div>
             </div>
 
+            <!-- Destaque Estratégico: Poltrona 42 (No Resultado) -->
             <div class="conversion-card">
-                <h3 class="conversion-title">Quer a melhor experiência?</h3>
-                <p class="conversion-subtitle">Assista a este e milhares de outros conteúdos sem depender de várias assinaturas.</p>
+                <h3 class="conversion-title">Chega de pagar vários streamings!</h3>
+                <p class="conversion-subtitle">Assista a este conteúdo e milhares de outros na melhor qualidade.</p>
                 <a href="SUA_PAGINA_DE_VENDAS_AQUI" class="cta-button">🍿 Assistir na Poltrona 42</a>
             </div>
         </main>
     </div>
 
+    <!-- Motor de Busca e Lógica de Negócio -->
     <script>
         const API_KEY = '674f80dffb5bc79391154b02a822fec8';
         const BASE_URL = 'https://api.themoviedb.org/3';
@@ -93,6 +127,8 @@
         // Elementos do DOM
         const searchInput = document.getElementById('searchInput');
         const loadingIndicator = document.getElementById('loadingIndicator');
+        const homeState = document.getElementById('homeState');
+        const trendingList = document.getElementById('trendingList');
         const movieResult = document.getElementById('movieResult');
         const moviePoster = document.getElementById('moviePoster');
         const movieTitle = document.getElementById('movieTitle');
@@ -102,20 +138,58 @@
 
         let typingTimer;
 
+        // Carrega Filmes em Alta ao abrir a página
+        window.onload = () => {
+            fetchTrending();
+        };
+
+        // Puxa os filmes em alta
+        async function fetchTrending() {
+            try {
+                const response = await fetch(`${BASE_URL}/trending/all/day?api_key=${API_KEY}&language=pt-BR`);
+                const data = await response.json();
+                
+                const results = data.results.filter(item => item.media_type === 'movie' || item.media_type === 'tv').slice(0, 10);
+                
+                trendingList.innerHTML = '';
+                results.forEach(media => {
+                    if(media.poster_path) {
+                        const div = document.createElement('div');
+                        div.className = 'trending-item';
+                        div.innerHTML = `<img src="${IMAGE_BASE_URL}${media.poster_path}" class="trending-poster" alt="Pôster">`;
+                        
+                        // Se o usuário clicar no pôster em alta, exibe os detalhes dele
+                        div.onclick = () => {
+                            searchInput.value = media.title || media.name;
+                            updateUIWithMediaDetails(media);
+                            fetchWatchProviders(media.id, media.media_type);
+                        };
+                        
+                        trendingList.appendChild(div);
+                    }
+                });
+            } catch (error) {
+                console.error("Erro ao carregar tendências:", error);
+            }
+        }
+
         // Ouve a digitação do usuário e dispara a busca
         searchInput.addEventListener('input', () => {
             clearTimeout(typingTimer);
             const query = searchInput.value.trim();
             
             if (query.length < 3) {
-                movieResult.style.display = 'none';
+                if(query.length === 0) {
+                    movieResult.style.display = 'none';
+                    homeState.style.display = 'flex'; // Volta para a Home
+                }
                 return;
             }
 
             loadingIndicator.style.display = 'block';
+            homeState.style.display = 'none'; // Esconde a Home
             movieResult.style.display = 'none';
             
-            // Aguarda o usuário parar de digitar por 500ms antes de chamar a API
             typingTimer = setTimeout(() => {
                 searchMovieOrShow(query);
             }, 500);
@@ -125,4 +199,96 @@
         async function searchMovieOrShow(query) {
             try {
                 const response = await fetch(`${BASE_URL}/search/multi?api_key=${API_KEY}&language=pt-BR&query=${encodeURIComponent(query)}`);
-                const data
+                const data = await response.json();
+
+                const results = data.results.filter(item => item.media_type === 'movie' || item.media_type === 'tv');
+
+                if (results.length > 0) {
+                    const firstResult = results[0];
+                    updateUIWithMediaDetails(firstResult);
+                    fetchWatchProviders(firstResult.id, firstResult.media_type);
+                } else {
+                    loadingIndicator.style.display = 'none';
+                }
+            } catch (error) {
+                console.error("Erro ao buscar:", error);
+                loadingIndicator.style.display = 'none';
+            }
+        }
+
+        // Passo 2: Atualiza a Interface com a Capa e Sinopse
+        function updateUIWithMediaDetails(media) {
+            const title = media.title || media.name;
+            const releaseDate = media.release_date || media.first_air_date || "";
+            const year = releaseDate ? releaseDate.split('-')[0] : "N/A";
+            const posterPath = media.poster_path ? `${IMAGE_BASE_URL}${media.poster_path}` : 'https://via.placeholder.com/105x155/1d222f/ffffff?text=Sem+Capa';
+
+            moviePoster.src = posterPath;
+            movieTitle.textContent = title;
+            movieMeta.textContent = `${year} • ${media.media_type === 'movie' ? 'Filme' : 'Série'}`;
+            movieSynopsis.textContent = media.overview || "Sinopse não disponível.";
+            
+            loadingIndicator.style.display = 'none';
+            homeState.style.display = 'none';
+            movieResult.style.display = 'flex';
+        }
+
+        // Passo 3: Busca onde assistir oficialmente no Brasil (BR)
+        async function fetchWatchProviders(id, mediaType) {
+            try {
+                const response = await fetch(`${BASE_URL}/${mediaType}/${id}/watch/providers?api_key=${API_KEY}`);
+                const data = await response.json();
+                
+                platformsList.innerHTML = ''; 
+
+                if (data.results && data.results.BR) {
+                    const providersBR = data.results.BR;
+                    let addedProviders = new Set();
+
+                    if (providersBR.flatrate) {
+                        providersBR.flatrate.forEach(provider => {
+                            if (!addedProviders.has(provider.provider_id)) {
+                                platformsList.appendChild(createProviderElement(provider, 'Assinatura'));
+                                addedProviders.add(provider.provider_id);
+                            }
+                        });
+                    }
+
+                    if (providersBR.rent) {
+                        providersBR.rent.forEach(provider => {
+                            if (!addedProviders.has(provider.provider_id)) {
+                                platformsList.appendChild(createProviderElement(provider, 'Aluguel'));
+                                addedProviders.add(provider.provider_id);
+                            }
+                        });
+                    }
+
+                    if (addedProviders.size === 0) {
+                        platformsList.innerHTML = '<div class="no-providers">Não disponível em streamings oficiais no Brasil.</div>';
+                    }
+                } else {
+                    platformsList.innerHTML = '<div class="no-providers">Não disponível em streamings oficiais no Brasil.</div>';
+                }
+            } catch (error) {
+                console.error("Erro ao buscar provedores:", error);
+                platformsList.innerHTML = '<div class="no-providers">Erro ao carregar plataformas.</div>';
+            }
+        }
+
+        // Função auxiliar para blocos visuais
+        function createProviderElement(provider, type) {
+            const div = document.createElement('div');
+            div.className = 'platform-item';
+            const logoUrl = `${IMAGE_BASE_URL}${provider.logo_path}`;
+            div.innerHTML = `
+                <div class="platform-left">
+                    <img src="${logoUrl}" alt="${provider.provider_name}" class="platform-logo">
+                    <span class="platform-name">${provider.provider_name}</span>
+                </div>
+                <span class="platform-status">${type}</span>
+            `;
+            return div;
+        }
+    </script>
+</body>
+</html>
