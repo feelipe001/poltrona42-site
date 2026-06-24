@@ -243,3 +243,456 @@
         <div class="overlay-content">
 
             <h2 style="color: #fff; font-size: 1.2rem; margin-bottom: 15px;">Como assistir pelo Telegram</h2>
+
+            <div style="position: relative; display: inline-block; width: 100%;">
+                <video id="instVideo" class="instruction-video" playsinline loop muted>
+                    <source src="https://res.cloudinary.com/dxpygpngo/video/upload/v1782309153/IMG_0039_h0wgrc.mov" type="video/mp4">
+                </video>
+                <button class="audio-btn" onclick="toggleVideoAudio()">🔇</button>
+            </div>
+
+            <a href="https://pay.lowify.com.br/checkout?product_id=TzLxa0" target="_blank" class="btn-telegram">Assistir Agora</a>
+
+            <button class="close-btn" onclick="closeOverlay()">Fechar</button>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="app-container">
+
+        <header class="header">
+
+            <a href="#" onclick="resetToHome(); return false;" class="brand-logo">💺 Poltrona 42</a>
+
+            <div>
+
+                <h1 class="hero-title">O que você vai<br>assistir hoje?</h1>
+
+                <p class="hero-subtitle">Descubra em qual streaming o filme está.</p>
+
+            </div>
+
+        </header>
+
+
+
+        <div class="search-wrapper">
+
+            <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+
+            <input type="text" id="searchInput" class="search-input" placeholder="Digite o nome do filme ou série...">
+
+            <svg class="clear-icon" id="clearSearch" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+
+        </div>
+
+
+
+        <div class="category-chips">
+
+            <div class="chip" onclick="autoSearch('Ação')">🔥 Ação</div>
+
+            <div class="chip" onclick="autoSearch('Terror')">👻 Terror</div>
+
+            <div class="chip" onclick="autoSearch('Comédia')">😂 Comédia</div>
+
+            <div class="chip" onclick="autoSearch('Ficção Científica')">👽 Ficção</div>
+
+        </div>
+
+        
+
+        <div id="loadingIndicator" class="loading"><div class="spinner"></div></div>
+
+
+
+        <div id="homeState">
+
+            <div class="reveal">
+
+                <h2 class="section-title">🔥 Em Alta Hoje</h2>
+
+                <div class="trending-scroll" id="trendingList"></div>
+
+            </div>
+
+
+
+            <div class="conversion-card reveal">
+
+                <h3 class="conversion-title">Liberar acesso <span>imediato:</span></h3>
+
+                <div class="cta-group">
+
+                    <button onclick="showTelegramOverlay()" class="btn-telegram">🎬 Ver como funciona (Telegram)</button>
+
+                    <a href="https://pay.lowify.com.br/checkout?product_id=6jU9sA" target="_blank" class="btn-tv">📺 App Smart TV</a>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="genre-section reveal"><h2 class="section-title">⚔️ Ação</h2><div class="marquee-container"><div class="marquee-track" id="track-action"></div></div></div>
+
+            <div class="genre-section reveal"><h2 class="section-title">😂 Comédia</h2><div class="marquee-container"><div class="marquee-track reverse" id="track-comedy"></div></div></div>
+
+            <div class="genre-section reveal"><h2 class="section-title">👻 Terror</h2><div class="marquee-container"><div class="marquee-track" id="track-horror"></div></div></div>
+
+            <div class="reveal">
+                <h2 class="section-title">🚀 Planos Disponíveis</h2>
+                <div class="plan-item"><a href="https://pay.lowify.com.br/checkout?product_id=TzLxa0">Assistir pelo Telegram</a></div>
+                <div class="plan-item"><a href="https://pay.lowify.com.br/checkout?product_id=6jU9sA">Assistir em qualquer dispositivo</a></div>
+                <div class="plan-item"><a href="https://pay.lowify.com.br/checkout?product_id=bOqeJG">Premium · 3 Meses</a></div>
+            </div>
+
+        </div>
+
+
+
+        <main id="movieResult" class="movie-result">
+
+            <div class="movie-info">
+
+                <img id="moviePoster" src="" alt="Pôster" class="movie-poster">
+
+                <div class="movie-details">
+
+                    <h1 id="movieTitle" class="movie-title"></h1>
+
+                    <p id="movieMeta" class="movie-meta"></p>
+
+                    <p id="movieSynopsis" class="movie-synopsis"></p>
+
+                </div>
+
+            </div>
+
+            <div id="platformsList" class="platforms-list"></div>
+
+            <div class="conversion-card">
+
+                <div class="cta-group">
+
+                    <button onclick="showTelegramOverlay()" class="btn-telegram">🎬 Ver como funciona (Telegram)</button>
+
+                    <a href="https://pay.lowify.com.br/checkout?product_id=6jU9sA" target="_blank" class="btn-tv">📺 App Smart TV</a>
+
+                </div>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+
+    <script>
+
+        const API_KEY = '674f80dffb5bc79391154b02a822fec8';
+
+        const BASE_URL = 'https://api.themoviedb.org/3';
+
+        const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+
+        const video = document.getElementById('instVideo');
+        const audioBtn = document.querySelector('.audio-btn');
+
+        function toggleVideoAudio() {
+            if (video.muted) {
+                video.muted = false;       
+                video.currentTime = 0;     
+                video.play();              
+                audioBtn.innerText = "🔊"; 
+            } else {
+                video.muted = true;        
+                audioBtn.innerText = "🔇";
+            }
+        }
+
+        function showTelegramOverlay() { 
+            document.getElementById('instructionOverlay').style.display = 'flex';
+            video.muted = true;
+            audioBtn.innerText = "🔇";
+            video.currentTime = 0;
+            video.play();
+        }
+
+        function closeOverlay() { document.getElementById('instructionOverlay').style.display = 'none'; }
+
+        
+
+        function resetToHome() {
+
+            document.getElementById('movieResult').style.display = 'none';
+
+            document.getElementById('homeState').style.display = 'flex';
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        }
+
+
+
+        const searchInput = document.getElementById('searchInput');
+
+        const clearSearch = document.getElementById('clearSearch');
+
+        const loadingIndicator = document.getElementById('loadingIndicator');
+
+        const homeState = document.getElementById('homeState');
+
+        const trendingList = document.getElementById('trendingList');
+
+        const movieResult = document.getElementById('movieResult');
+
+        const moviePoster = document.getElementById('moviePoster');
+
+        const movieTitle = document.getElementById('movieTitle');
+
+        const movieMeta = document.getElementById('movieMeta');
+
+        const movieSynopsis = document.getElementById('movieSynopsis');
+
+        const platformsList = document.getElementById('platformsList');
+
+        let typingTimer;
+
+
+
+        window.onload = () => { 
+
+            fetchTrending(); 
+
+            setupScrollReveal();
+
+            fetchGenreMarquee(28, 'track-action');
+
+            fetchGenreMarquee(35, 'track-comedy');
+
+            fetchGenreMarquee(27, 'track-horror');
+
+        };
+
+
+
+        function setupScrollReveal() {
+
+            const reveals = document.querySelectorAll('.reveal');
+
+            const observer = new IntersectionObserver((entries) => {
+
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
+
+            }, { threshold: 0.1 });
+
+            reveals.forEach(reveal => observer.observe(reveal));
+
+        }
+
+
+
+        clearSearch.addEventListener('click', () => { resetToHome(); searchInput.focus(); });
+
+
+
+        function autoSearch(term) {
+
+            searchInput.value = term;
+
+            clearSearch.style.display = 'block';
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            triggerSearch(term);
+
+        }
+
+
+
+        async function fetchGenreMarquee(genreId, containerId) {
+
+            try {
+
+                const response = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&language=pt-BR&with_genres=${genreId}&sort_by=popularity.desc`);
+
+                const data = await response.json();
+
+                const container = document.getElementById(containerId);
+
+                let htmlContent = '';
+
+                data.results.forEach(media => {
+
+                    if(media.poster_path) {
+
+                        const safeTitle = (media.title || media.name).replace(/'/g, "\\'");
+
+                        htmlContent += `<div class="marquee-item" onclick="autoSearch('${safeTitle}')"><img src="${IMAGE_BASE_URL}${media.poster_path}" alt="Pôster"></div>`;
+
+                    }
+
+                });
+
+                container.innerHTML = htmlContent + htmlContent;
+
+            } catch (error) { console.error("Erro:", error); }
+
+        }
+
+
+
+        async function fetchTrending() {
+
+            try {
+
+                const response = await fetch(`${BASE_URL}/trending/all/day?api_key=${API_KEY}&language=pt-BR`);
+
+                const data = await response.json();
+
+                const results = data.results.filter(item => item.media_type === 'movie' || item.media_type === 'tv').slice(0, 10);
+
+                trendingList.innerHTML = '';
+
+                results.forEach(media => {
+
+                    if(media.poster_path) {
+
+                        const div = document.createElement('div');
+
+                        div.className = 'trending-item';
+
+                        div.innerHTML = `<img src="${IMAGE_BASE_URL}${media.poster_path}" class="trending-poster" alt="Pôster">`;
+
+                        div.onclick = () => { autoSearch((media.title || media.name).replace(/'/g, "\\'")); };
+
+                        trendingList.appendChild(div);
+
+                    }
+
+                });
+
+            } catch (error) { console.error("Erro:", error); }
+
+        }
+
+
+
+        searchInput.addEventListener('input', () => {
+
+            clearTimeout(typingTimer);
+
+            const query = searchInput.value.trim();
+
+            clearSearch.style.display = query.length > 0 ? 'block' : 'none';
+
+            if (query.length < 3) { if(query.length === 0) resetToHome(); return; }
+
+            triggerSearch(query);
+
+        });
+
+
+
+        function triggerSearch(query) {
+
+            loadingIndicator.style.display = 'block';
+
+            homeState.style.display = 'none';
+
+            movieResult.style.display = 'none';
+
+            typingTimer = setTimeout(() => { searchMovieOrShow(query); }, 600);
+
+        }
+
+
+
+        async function searchMovieOrShow(query) {
+
+            try {
+
+                const response = await fetch(`${BASE_URL}/search/multi?api_key=${API_KEY}&language=pt-BR&query=${encodeURIComponent(query)}`);
+
+                const data = await response.json();
+
+                const results = data.results.filter(item => item.media_type === 'movie' || item.media_type === 'tv');
+
+                if (results.length > 0) {
+
+                    updateUIWithMediaDetails(results[0]);
+
+                    fetchWatchProviders(results[0].id, results[0].media_type);
+
+                } else { loadingIndicator.style.display = 'none'; }
+
+            } catch (error) { loadingIndicator.style.display = 'none'; }
+
+        }
+
+
+
+        function updateUIWithMediaDetails(media) {
+
+            const title = media.title || media.name;
+
+            const releaseDate = media.release_date || media.first_air_date || "";
+
+            const year = releaseDate ? releaseDate.split('-')[0] : "N/A";
+
+            const posterPath = media.poster_path ? `${IMAGE_BASE_URL}${media.poster_path}` : 'https://via.placeholder.com/110x165/1d222f/ffffff?text=Sem+Capa';
+
+            moviePoster.src = posterPath;
+
+            movieTitle.textContent = title;
+
+            movieMeta.textContent = `${year} • ${media.media_type === 'movie' ? 'Filme' : 'Série'}`;
+
+            movieSynopsis.textContent = media.overview || "Sinopse não disponível.";
+
+            loadingIndicator.style.display = 'none';
+
+            homeState.style.display = 'none';
+
+            movieResult.style.display = 'flex';
+
+        }
+
+
+
+        async function fetchWatchProviders(id, mediaType) {
+
+            try {
+
+                const response = await fetch(`${BASE_URL}/${mediaType}/${id}/watch/providers?api_key=${API_KEY}`);
+
+                const data = await response.json();
+
+                platformsList.innerHTML = '';
+
+                if (data.results && data.results.BR) {
+
+                    const providersBR = data.results.BR;
+
+                    if (providersBR.flatrate) providersBR.flatrate.forEach(p => platformsList.innerHTML += `<div class="platform-item"><div class="platform-left"><img src="${IMAGE_BASE_URL}${p.logo_path}" style="width:32px; border-radius:8px"> ${p.provider_name}</div><span>Assinatura</span></div>`);
+
+                    if (providersBR.rent) providersBR.rent.forEach(p => platformsList.innerHTML += `<div class="platform-item"><div class="platform-left"><img src="${IMAGE_BASE_URL}${p.logo_path}" style="width:32px; border-radius:8px"> ${p.provider_name}</div><span>Aluguel</span></div>`);
+
+                } else { platformsList.innerHTML = '<div class="no-providers">Não disponível em streamings oficiais no Brasil.</div>'; }
+
+            } catch (error) { platformsList.innerHTML = '<div class="no-providers">Erro ao carregar plataformas.</div>'; }
+
+        }
+
+
+
+    </script>
+
+</body>
+
+</html>
