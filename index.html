@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Onde Assistir - @_felipeindica</title>
+    <title>Poltrona 42 - Onde Assistir</title>
     <style>
         /* Animações Globais */
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -41,7 +41,20 @@
 
         /* Header e Hero Section */
         .header { text-align: center; margin-top: 10px; display: flex; flex-direction: column; gap: 16px; }
-        .profile-tag { font-size: 0.95rem; font-weight: 700; color: #ff9f43; text-decoration: none; letter-spacing: 1px; text-transform: uppercase; }
+        
+        /* NOVO: Logo Poltrona 42 */
+        .brand-logo { 
+            font-size: 1.1rem; 
+            font-weight: 800; 
+            color: #ff9f43; 
+            text-decoration: none; 
+            letter-spacing: 1px; 
+            text-transform: uppercase; 
+            cursor: pointer;
+            display: inline-block;
+            transition: transform 0.2s;
+        }
+        .brand-logo:active { transform: scale(0.95); }
         
         .hero-title { font-size: 1.8rem; font-weight: 800; line-height: 1.2; color: #ffffff; margin-top: 10px;}
         .hero-subtitle { font-size: 0.95rem; color: #a4b0be; margin-top: 6px; }
@@ -101,7 +114,7 @@
         .cta-button::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); animation: shimmer 3s infinite; }
         .cta-button:active { transform: scale(0.96); }
 
-        /* NOVO: Scroll Reveal (Efeito de ir aparecendo) */
+        /* Scroll Reveal (Efeito de ir aparecendo) */
         .reveal {
             opacity: 0;
             transform: translateY(40px);
@@ -109,10 +122,9 @@
         }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
-        /* NOVO: Scroll Infinito Automático (Marquee) */
+        /* Scroll Infinito Automático (Marquee) */
         .genre-section { display: flex; flex-direction: column; overflow: hidden; }
         .marquee-container { width: 100%; overflow: hidden; position: relative; padding-bottom: 10px;}
-        /* Máscara gradiente para não cortar seco nas bordas da tela */
         .marquee-container::before, .marquee-container::after {
             content: ""; position: absolute; top: 0; width: 30px; height: 100%; z-index: 2; pointer-events: none;
         }
@@ -150,7 +162,8 @@
     <div class="app-container">
         <!-- Header e Hero -->
         <header class="header">
-            <a href="https://instagram.com/_felipeindica" target="_blank" class="profile-tag">@_felipeindica</a>
+            <!-- AQUI: Mudamos para o Logo que funciona como botão de Home -->
+            <a href="#" onclick="resetToHome(); return false;" class="brand-logo">💺 Poltrona 42</a>
             <div>
                 <h1 class="hero-title">O que você vai<br>assistir hoje?</h1>
                 <p class="hero-subtitle">Descubra em qual streaming o filme está.</p>
@@ -184,10 +197,10 @@
             <div class="conversion-card reveal">
                 <h3 class="conversion-title">Chega de pagar <span>vários streamings!</span></h3>
                 <p class="conversion-subtitle">Tenha todos os filmes, séries e animes em um só lugar. A melhor experiência de cinema na sua casa.</p>
-                <a href="https://poltrona-quest-stream.lovable.app" class="cta-button">🎬 Conhecer a Poltrona 42</a>
+                <a href="SUA_PAGINA_DE_VENDAS_AQUI" class="cta-button">🎬 Conhecer a Poltrona 42</a>
             </div>
 
-            <!-- Novas Categorias (Scroll Automático Infinito) -->
+            <!-- Categorias (Scroll Automático Infinito) -->
             <div class="genre-section reveal">
                 <h2 class="section-title">⚔️ Ação e Aventura</h2>
                 <div class="marquee-container">
@@ -258,13 +271,11 @@
         window.onload = () => { 
             fetchTrending(); 
             setupScrollReveal();
-            // Carrega as categorias: 28 = Ação, 35 = Comédia, 27 = Terror
             fetchGenreMarquee(28, 'track-action');
             fetchGenreMarquee(35, 'track-comedy');
             fetchGenreMarquee(27, 'track-horror');
         };
 
-        // Configura o efeito "Reveal" (aparecer ao rolar a página)
         function setupScrollReveal() {
             const reveals = document.querySelectorAll('.reveal');
             const observer = new IntersectionObserver((entries) => {
@@ -273,23 +284,25 @@
                         entry.target.classList.add('active');
                     }
                 });
-            }, { threshold: 0.1 }); // Dispara quando 10% do elemento aparece
+            }, { threshold: 0.1 });
 
             reveals.forEach(reveal => observer.observe(reveal));
             
-            // Ativa os primeiros elementos imediatamente
             setTimeout(() => {
-                reveals[0].classList.add('active');
-                reveals[1].classList.add('active');
+                if(reveals[0]) reveals[0].classList.add('active');
+                if(reveals[1]) reveals[1].classList.add('active');
             }, 100);
         }
 
+        // Função de Resetar a Tela (Agora também rola para o topo)
         function resetToHome() {
             searchInput.value = '';
             clearSearch.style.display = 'none';
             movieResult.style.display = 'none';
             homeState.style.display = 'flex';
             loadingIndicator.style.display = 'none';
+            // Rola a tela suavemente para o topo
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         clearSearch.addEventListener('click', () => { resetToHome(); searchInput.focus(); });
@@ -301,7 +314,6 @@
             triggerSearch(term);
         }
 
-        // Puxa e cria os filmes que rodam sozinhos (Marquee)
         async function fetchGenreMarquee(genreId, containerId) {
             try {
                 const response = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&language=pt-BR&with_genres=${genreId}&sort_by=popularity.desc`);
@@ -311,7 +323,6 @@
                 let htmlContent = '';
                 data.results.forEach(media => {
                     if(media.poster_path) {
-                        // Passa o título seguro para a função
                         const safeTitle = (media.title || media.name).replace(/'/g, "\\'");
                         htmlContent += `
                             <div class="marquee-item" onclick="autoSearch('${safeTitle}')">
@@ -321,9 +332,7 @@
                     }
                 });
                 
-                // Duplica o conteúdo dentro da div para criar o loop infinito sem quebras
                 container.innerHTML = htmlContent + htmlContent;
-                
             } catch (error) { console.error("Erro na categoria:", error); }
         }
 
