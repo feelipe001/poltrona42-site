@@ -73,6 +73,7 @@
             background: rgba(0,0,0,0.6); border: none; border-radius: 50%; 
             width: 40px; height: 40px; cursor: pointer; font-size: 20px; z-index: 10;
         }
+
         .close-btn { background: none; border: none; color: #747d8c; font-size: 1rem; cursor: pointer; margin-top: 15px; text-decoration: underline; }
 
 
@@ -167,20 +168,13 @@
 
         .conversion-title span { color: #ff9f43; }
 
-        .conversion-subtitle { font-size: 0.9rem; color: #ced6e0; margin-bottom: 15px; line-height: 1.4; }
-
-        
-
         .cta-group { display: flex; flex-direction: column; gap: 12px; width: 100%; margin-top: 5px; }
 
         
 
         .btn-telegram {
-
             display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px;
-
             background: linear-gradient(90deg, #27A7E7, #0088cc); color: #fff; border: none; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 6px 20px rgba(0, 136, 204, 0.25); cursor: pointer;
-
         }
 
         .btn-telegram:active { transform: scale(0.96); box-shadow: 0 2px 10px rgba(0, 136, 204, 0.3); }
@@ -188,18 +182,25 @@
 
 
         .btn-tv {
-
             display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px;
-
             background: linear-gradient(90deg, #ff9f43, #ff7b00); color: #fff; border: none; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; position: relative; overflow: hidden; animation: pulseGlow 2.5s infinite; transition: transform 0.2s;
-
         }
 
         .btn-tv::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); animation: shimmer 3s infinite; }
 
         .btn-tv:active { transform: scale(0.96); }
 
-
+        /* Planos Novos */
+        .plans-container { display: flex; flex-direction: column; gap: 20px; }
+        .plan-card { background: #1c202b; border: 1px solid #2a303c; border-radius: 20px; padding: 25px; text-align: left; position: relative; }
+        .plan-title { font-size: 1.2rem; font-weight: 700; color: #fff; margin-bottom: 5px; }
+        .plan-price { font-size: 1.5rem; font-weight: 900; color: #ff9f43; margin-bottom: 15px; }
+        .plan-features { list-style: none; margin-bottom: 20px; }
+        .plan-features li { font-size: 0.85rem; color: #a4b0be; margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+        .plan-features li::before { content: '✓'; color: #ff7b00; font-weight: bold; }
+        .plan-btn { display: block; text-align: center; padding: 15px; border-radius: 12px; font-weight: 800; text-decoration: none; color: #fff; background: #2a303c; transition: 0.3s; }
+        .plan-btn:hover { background: #ff9f43; color: #000; }
+        .tag { position: absolute; top: -10px; right: 20px; background: #ff003c; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: 800; text-transform: uppercase; }
 
         /* Reveal e Marquee */
 
@@ -334,27 +335,46 @@
 
 
 
-            <div class="conversion-card reveal">
-
-                <h3 class="conversion-title">Liberar acesso <span>imediato:</span></h3>
-
-                <div class="cta-group">
-
-                    <button onclick="showTelegramOverlay()" class="btn-telegram">🎬 Ver como funciona (Telegram)</button>
-
-                    <a href="https://pay.lowify.com.br/checkout?product_id=6jU9sA" target="_blank" class="btn-tv">📺 App Smart TV</a>
-
-                </div>
-
-            </div>
-
-
-
             <div class="genre-section reveal"><h2 class="section-title">⚔️ Ação</h2><div class="marquee-container"><div class="marquee-track" id="track-action"></div></div></div>
 
             <div class="genre-section reveal"><h2 class="section-title">😂 Comédia</h2><div class="marquee-container"><div class="marquee-track reverse" id="track-comedy"></div></div></div>
 
             <div class="genre-section reveal"><h2 class="section-title">👻 Terror</h2><div class="marquee-container"><div class="marquee-track" id="track-horror"></div></div></div>
+            
+            <div class="plans-container reveal">
+                <div class="plan-card">
+                    <div class="plan-title">Assistir pelo Telegram</div>
+                    <div class="plan-price">R$ 9 <span style="font-size: 0.9rem; color: #747d8c;">/mês</span></div>
+                    <ul class="plan-features">
+                        <li>Mais de 12 mil conteúdos</li>
+                        <li>Filmes e Séries</li>
+                        <li>Atualizações diárias</li>
+                    </ul>
+                    <a href="https://pay.lowify.com.br/checkout?product_id=TzLxa0" target="_blank" class="plan-btn">QUERO ASSISTIR PELO TELEGRAM</a>
+                </div>
+                <div class="plan-card" style="border-color: #ff9f43;">
+                    <span class="tag">Mais Escolhido</span>
+                    <div class="plan-title">Assistir em qualquer dispositivo</div>
+                    <div class="plan-price">R$ 29,90 <span style="font-size: 0.9rem; color: #747d8c;">/mês</span></div>
+                    <ul class="plan-features">
+                        <li>Mais de 40 mil conteúdos</li>
+                        <li>Canais ao vivo, Smart TV, TV Box</li>
+                        <li>Fire TV, Chromecast, Android, iOS, PC</li>
+                    </ul>
+                    <a href="https://pay.lowify.com.br/checkout?product_id=6jU9sA" target="_blank" class="plan-btn" style="background: #ff9f43; color: #000;">ASSINAR AGORA</a>
+                </div>
+                <div class="plan-card">
+                    <span class="tag" style="background: #27A7E7;">Economize</span>
+                    <div class="plan-title">Premium · 3 Meses</div>
+                    <div class="plan-price">R$ 75 <span style="font-size: 0.9rem; color: #747d8c;">/trimestre</span></div>
+                    <ul class="plan-features">
+                        <li>Tudo incluso (90 dias de acesso)</li>
+                        <li>Canais ao vivo, Smart TV, Android</li>
+                        <li>iPhone e PC</li>
+                    </ul>
+                    <a href="https://pay.lowify.com.br/checkout?product_id=bOqeJG" target="_blank" class="plan-btn">QUERO O PREMIUM</a>
+                </div>
+            </div>
 
         </div>
 
@@ -411,17 +431,16 @@
 
         function toggleVideoAudio() {
             if (video.muted) {
-                video.muted = false;       // Tira o mudo
-                video.currentTime = 0;     // Reinicia do zero
-                video.play();              // Garante o play
-                audioBtn.innerText = "🔊"; // Altera o ícone
+                video.muted = false;       
+                video.currentTime = 0;     
+                video.play();              
+                audioBtn.innerText = "🔊"; 
             } else {
-                video.muted = true;        // Muta novamente
+                video.muted = true;        
                 audioBtn.innerText = "🔇";
             }
         }
 
-        // Atualize sua função de abrir para garantir o estado inicial
         function showTelegramOverlay() { 
             document.getElementById('instructionOverlay').style.display = 'flex';
             video.muted = true;
@@ -431,8 +450,6 @@
         }
 
         function closeOverlay() { document.getElementById('instructionOverlay').style.display = 'none'; }
-
-        
 
         function resetToHome() {
 
