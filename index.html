@@ -66,7 +66,13 @@
 
         .overlay-content { background: #1c202b; padding: 25px; border-radius: 20px; text-align: center; max-width: 380px; width: 100%; border: 1px solid #2a303c; box-shadow: 0 20px 50px rgba(0,0,0,0.5); }
 
-        .instruction-video { width: 100%; max-height: 400px; border-radius: 12px; margin: 15px 0; object-fit: contain; background: #000; }
+        /* Altere a linha 69 para adicionar position: relative no container do vídeo */
+        .instruction-video { width: 100%; max-height: 400px; border-radius: 12px; margin: 15px 0; object-fit: contain; background: #000; position: relative; }
+        /* Adicione esta classe para o botão */
+
+        .audio-btn { position: absolute; bottom: 30px; right: 25px; 
+    background: rgba(0,0,0,0.6); border: none; border-radius: 50%; 
+    width: 40px; height: 40px; cursor: pointer; font-size: 20px; z-index: 10; }
 
         .close-btn { background: none; border: none; color: #747d8c; font-size: 1rem; cursor: pointer; margin-top: 15px; text-decoration: underline; }
 
@@ -252,6 +258,12 @@
 
             <h2 style="color: #fff; font-size: 1.2rem; margin-bottom: 15px;">Como assistir pelo Telegram</h2>
 
+            <div class="video-wrapper">
+    <video id="instVideo" class="instruction-video" playsinline loop muted>
+        <source src="https://res.cloudinary.com/dxpygpngo/video/upload/v1782309153/IMG_0039_h0wgrc.mov" type="video/mp4">
+    </video>
+    <button class="audio-btn" onclick="toggleVideoAudio()">🔇</button>
+</div>
             <video class="instruction-video" autoplay muted playsinline loop>
 
                 <source src="https://res.cloudinary.com/dxpygpngo/video/upload/v1782309153/IMG_0039_h0wgrc.mov" type="video/mp4">
@@ -667,6 +679,30 @@
                 } else { platformsList.innerHTML = '<div class="no-providers">Não disponível em streamings oficiais no Brasil.</div>'; }
 
             } catch (error) { platformsList.innerHTML = '<div class="no-providers">Erro ao carregar plataformas.</div>'; }
+
+            const video = document.getElementById('instVideo');
+const audioBtn = document.querySelector('.audio-btn');
+
+function toggleVideoAudio() {
+    if (video.muted) {
+        video.muted = false;       // Tira o mudo
+        video.currentTime = 0;     // Reinicia do zero
+        video.play();              // Garante o play
+        audioBtn.innerText = "🔊"; // Altera o ícone
+    } else {
+        video.muted = true;        // Muta novamente
+        audioBtn.innerText = "🔇";
+    }
+}
+
+// Atualize sua função de abrir para garantir o estado inicial
+function showTelegramOverlay() { 
+    document.getElementById('instructionOverlay').style.display = 'flex';
+    video.muted = true;
+    audioBtn.innerText = "🔇";
+    video.currentTime = 0;
+    video.play();
+}
 
         }
 
