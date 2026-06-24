@@ -167,26 +167,39 @@
 
         .conversion-title span { color: #ff9f43; }
 
+        .conversion-subtitle { font-size: 0.9rem; color: #ced6e0; margin-bottom: 15px; line-height: 1.4; }
+
+        
+
         .cta-group { display: flex; flex-direction: column; gap: 12px; width: 100%; margin-top: 5px; }
 
         
 
         .btn-telegram {
+
             display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px;
+
             background: linear-gradient(90deg, #27A7E7, #0088cc); color: #fff; border: none; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 6px 20px rgba(0, 136, 204, 0.25); cursor: pointer;
+
         }
+
         .btn-telegram:active { transform: scale(0.96); box-shadow: 0 2px 10px rgba(0, 136, 204, 0.3); }
 
+
+
         .btn-tv {
+
             display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px;
+
             background: linear-gradient(90deg, #ff9f43, #ff7b00); color: #fff; border: none; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; position: relative; overflow: hidden; animation: pulseGlow 2.5s infinite; transition: transform 0.2s;
+
         }
+
         .btn-tv::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); animation: shimmer 3s infinite; }
+
         .btn-tv:active { transform: scale(0.96); }
 
-        /* Planos */
-        .plan-item { background: #1c202b; padding: 15px; border-radius: 12px; border: 1px solid #2a303c; margin-bottom: 10px; display: flex; flex-direction: column; gap: 8px; }
-        .plan-item a { color: #ff9f43; text-decoration: none; font-weight: bold; font-size: 0.95rem; }
+
 
         /* Reveal e Marquee */
 
@@ -229,6 +242,21 @@
         .platform-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #1c202b; border-radius: 14px; }
 
         .no-providers { font-size: 0.9rem; color: #a4b0be; text-align: center; padding: 15px; }
+
+        /* Estilos dos Planos (Adicionados) */
+        .plans-container { display: flex; flex-direction: column; gap: 35px; padding-top: 20px; }
+        .plan-card { background: #080a0f; border: 1px solid #1c202b; border-radius: 16px; padding: 35px 25px; position: relative; display: flex; flex-direction: column; }
+        .plan-card.highlight { border-color: #ff003c; box-shadow: 0 0 25px rgba(255, 0, 60, 0.15); }
+        .plan-tag { position: absolute; top: -14px; left: 50%; transform: translateX(-50%); background: #ff003c; color: #fff; font-size: 0.75rem; font-weight: 900; padding: 6px 16px; border-radius: 20px; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 0 15px rgba(255, 0, 60, 0.6); white-space: nowrap; z-index: 2;}
+        .plan-icon { font-size: 1.8rem; margin-bottom: 15px; display: block; color: #ff003c; }
+        .plan-title { font-size: 1.3rem; font-weight: 800; color: #fff; margin-bottom: 8px; }
+        .plan-price { font-size: 2.8rem; font-weight: 900; color: #fff; margin-bottom: 30px; display: flex; align-items: baseline; gap: 5px; }
+        .plan-price span { font-size: 0.9rem; color: #747d8c; font-weight: 500; }
+        .plan-features { list-style: none; margin-bottom: 35px; display: flex; flex-direction: column; gap: 15px; flex-grow: 1; }
+        .plan-features li { font-size: 0.95rem; color: #ced6e0; display: flex; align-items: center; gap: 12px; }
+        .plan-features li::before { content: '✓'; color: #ff003c; font-weight: bold; font-size: 1.1rem; }
+        .plan-btn-outline { display: block; width: 100%; text-align: center; padding: 18px; border-radius: 12px; font-size: 0.85rem; font-weight: 800; text-decoration: none; color: #fff; background: transparent; border: 1px solid #2a303c; transition: all 0.3s; text-transform: uppercase; letter-spacing: 0.5px; margin-top: auto; }
+        .plan-btn-solid { display: block; width: 100%; text-align: center; padding: 18px; border-radius: 12px; font-size: 0.85rem; font-weight: 800; text-decoration: none; color: #fff; background: #ff003c; border: none; box-shadow: 0 0 20px rgba(255, 0, 60, 0.4); text-transform: uppercase; letter-spacing: 0.5px; margin-top: auto; }
 
     </style>
 
@@ -343,11 +371,61 @@
 
             <div class="genre-section reveal"><h2 class="section-title">👻 Terror</h2><div class="marquee-container"><div class="marquee-track" id="track-horror"></div></div></div>
 
-            <div class="reveal">
-                <h2 class="section-title">🚀 Planos Disponíveis</h2>
-                <div class="plan-item"><a href="https://pay.lowify.com.br/checkout?product_id=TzLxa0">Assistir pelo Telegram</a></div>
-                <div class="plan-item"><a href="https://pay.lowify.com.br/checkout?product_id=6jU9sA">Assistir em qualquer dispositivo</a></div>
-                <div class="plan-item"><a href="https://pay.lowify.com.br/checkout?product_id=bOqeJG">Premium · 3 Meses</a></div>
+            
+            <!-- Planos Adicionados no Final da Página Inicial -->
+            <div class="plans-container reveal">
+                <!-- Plano 1 -->
+                <div class="plan-card">
+                    <span class="plan-icon">📱</span>
+                    <div class="plan-title">Assistir pelo Telegram</div>
+                    <div class="plan-price">R$9<span>/mês</span></div>
+                    <ul class="plan-features">
+                        <li>Mais de 12 mil conteúdos</li>
+                        <li>Filmes</li>
+                        <li>Séries</li>
+                        <li>Atualizações diárias</li>
+                        <li>Celular</li>
+                    </ul>
+                    <a href="https://pay.lowify.com.br/checkout?product_id=TzLxa0" target="_blank" class="plan-btn-outline">QUERO ASSISTIR PELO TELEGRAM</a>
+                </div>
+
+                <!-- Plano 2 -->
+                <div class="plan-card highlight">
+                    <div class="plan-tag">MAIS ESCOLHIDO</div>
+                    <span class="plan-icon">📺</span>
+                    <div class="plan-title">Assistir em qualquer dispositivo</div>
+                    <div class="plan-price">R$29,90<span>/mês</span></div>
+                    <ul class="plan-features">
+                        <li>Mais de 40 mil conteúdos</li>
+                        <li>Canais ao vivo</li>
+                        <li>Smart TV</li>
+                        <li>TV Box</li>
+                        <li>Fire TV</li>
+                        <li>Chromecast</li>
+                        <li>Android</li>
+                        <li>iPhone</li>
+                        <li>PC</li>
+                    </ul>
+                    <a href="https://pay.lowify.com.br/checkout?product_id=6jU9sA" target="_blank" class="plan-btn-solid">QUERO ASSISTIR EM QUALQUER DISPOSITIVO</a>
+                </div>
+
+                <!-- Plano 3 -->
+                <div class="plan-card">
+                    <div class="plan-tag">ECONOMIZE</div>
+                    <span class="plan-icon">👑</span>
+                    <div class="plan-title">Premium · 3 Meses</div>
+                    <div class="plan-price">R$75<span>/trimestre</span></div>
+                    <ul class="plan-features">
+                        <li>Tudo incluso</li>
+                        <li>90 dias de acesso</li>
+                        <li>Canais ao vivo</li>
+                        <li>Smart TV</li>
+                        <li>Android</li>
+                        <li>iPhone</li>
+                        <li>PC</li>
+                    </ul>
+                    <a href="https://pay.lowify.com.br/checkout?product_id=bOqeJG" target="_blank" class="plan-btn-outline">QUERO O PREMIUM</a>
+                </div>
             </div>
 
         </div>
@@ -405,16 +483,17 @@
 
         function toggleVideoAudio() {
             if (video.muted) {
-                video.muted = false;       
-                video.currentTime = 0;     
-                video.play();              
-                audioBtn.innerText = "🔊"; 
+                video.muted = false;       // Tira o mudo
+                video.currentTime = 0;     // Reinicia do zero
+                video.play();              // Garante o play
+                audioBtn.innerText = "🔊"; // Altera o ícone
             } else {
-                video.muted = true;        
+                video.muted = true;        // Muta novamente
                 audioBtn.innerText = "🔇";
             }
         }
 
+        // Atualize sua função de abrir para garantir o estado inicial
         function showTelegramOverlay() { 
             document.getElementById('instructionOverlay').style.display = 'flex';
             video.muted = true;
