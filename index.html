@@ -10,8 +10,6 @@
         @keyframes gradientBG { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
         @keyframes pulseGlow { 0% { box-shadow: 0 0 0 0 rgba(255, 159, 67, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(255, 159, 67, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 159, 67, 0); } }
         @keyframes shimmer { 0% { left: -100%; } 100% { left: 100%; } }
-        
-        /* Animação do Scroll Infinito Automático */
         @keyframes scrollMarquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
         /* Reset e Estilos de Base */
@@ -29,31 +27,12 @@
             overflow-x: hidden;
         }
 
-        .app-container { 
-            width: 100%; 
-            max-width: 440px; 
-            display: flex; 
-            flex-direction: column; 
-            gap: 24px; 
-            padding-bottom: 60px; 
-            animation: fadeIn 0.6s ease-out;
-        }
+        .app-container { width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 24px; padding-bottom: 60px; animation: fadeIn 0.6s ease-out; }
 
         /* Header e Hero Section */
         .header { text-align: center; margin-top: 10px; display: flex; flex-direction: column; gap: 16px; }
         
-        /* NOVO: Logo Poltrona 42 */
-        .brand-logo { 
-            font-size: 1.1rem; 
-            font-weight: 800; 
-            color: #ff9f43; 
-            text-decoration: none; 
-            letter-spacing: 1px; 
-            text-transform: uppercase; 
-            cursor: pointer;
-            display: inline-block;
-            transition: transform 0.2s;
-        }
+        .brand-logo { font-size: 1.1rem; font-weight: 800; color: #ff9f43; text-decoration: none; letter-spacing: 1px; text-transform: uppercase; cursor: pointer; display: inline-block; transition: transform 0.2s; }
         .brand-logo:active { transform: scale(0.95); }
         
         .hero-title { font-size: 1.8rem; font-weight: 800; line-height: 1.2; color: #ffffff; margin-top: 10px;}
@@ -63,26 +42,18 @@
         .search-wrapper { position: relative; width: 100%; z-index: 10; }
         .search-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); width: 20px; height: 20px; fill: #747d8c; transition: fill 0.3s; }
         
-        .clear-icon { 
-            position: absolute; right: 16px; top: 50%; transform: translateY(-50%); 
-            width: 22px; height: 22px; fill: #747d8c; cursor: pointer; display: none; transition: fill 0.2s, transform 0.2s; 
-        }
+        .clear-icon { position: absolute; right: 16px; top: 50%; transform: translateY(-50%); width: 22px; height: 22px; fill: #747d8c; cursor: pointer; display: none; transition: fill 0.2s, transform 0.2s; }
         .clear-icon:hover { fill: #ff9f43; }
         .clear-icon:active { transform: translateY(-50%) scale(0.85); }
 
-        .search-input { 
-            width: 100%; padding: 18px 48px; background-color: rgba(21, 24, 31, 0.8); backdrop-filter: blur(10px);
-            border: 1px solid #2a303c; border-radius: 16px; color: #fff; font-size: 1.05rem; outline: none; transition: all 0.3s ease; box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-        }
+        .search-input { width: 100%; padding: 18px 48px; background-color: rgba(21, 24, 31, 0.8); backdrop-filter: blur(10px); border: 1px solid #2a303c; border-radius: 16px; color: #fff; font-size: 1.05rem; outline: none; transition: all 0.3s ease; box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
         .search-input:focus { border-color: #ff9f43; box-shadow: 0 0 0 3px rgba(255, 159, 67, 0.2), 0 8px 24px rgba(0,0,0,0.4); }
         .search-input:focus + .search-icon { fill: #ff9f43; }
 
         /* Chips de Categoria */
         .category-chips { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 5px; scrollbar-width: none; }
         .category-chips::-webkit-scrollbar { display: none; }
-        .chip { 
-            background-color: #1c202b; color: #ced6e0; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; white-space: nowrap; border: 1px solid #2a303c; transition: all 0.2s;
-        }
+        .chip { background-color: #1c202b; color: #ced6e0; padding: 8px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; white-space: nowrap; border: 1px solid #2a303c; transition: all 0.2s; }
         .chip:active { transform: scale(0.95); background-color: #ff9f43; color: #000; border-color: #ff9f43; }
 
         /* Loading Animado */
@@ -94,40 +65,43 @@
         #homeState { display: flex; flex-direction: column; gap: 30px; animation: fadeIn 0.5s ease-out; }
         .section-title { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 14px; display: flex; align-items: center; gap: 6px; }
         
-        /* Scroll Manual (Em Alta) */
         .trending-scroll { display: flex; gap: 14px; overflow-x: auto; padding-bottom: 15px; scrollbar-width: none; scroll-snap-type: x mandatory; }
         .trending-item { flex: 0 0 auto; width: 110px; cursor: pointer; transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); scroll-snap-align: start; position: relative;}
         .trending-item:active { transform: scale(0.92); }
         .trending-poster { width: 100%; height: 160px; border-radius: 12px; object-fit: cover; box-shadow: 0 6px 12px rgba(0,0,0,0.5); transition: box-shadow 0.3s; }
         
-        /* Conversão: Poltrona 42 */
+        /* Conversão: Poltrona 42 com Dois Botões */
         .conversion-card { 
             background: linear-gradient(145deg, #1f140b 0%, #120b05 100%); border: 1px solid rgba(255, 159, 67, 0.3); border-radius: 18px; padding: 24px 20px; text-align: center; position: relative; overflow: hidden; box-shadow: 0 15px 30px rgba(0,0,0,0.5); 
         }
         .conversion-title { font-size: 1.2rem; font-weight: 900; margin-bottom: 6px; color: #ffffff; }
         .conversion-title span { color: #ff9f43; }
-        .conversion-subtitle { font-size: 0.9rem; color: #ced6e0; margin-bottom: 20px; line-height: 1.4; }
+        .conversion-subtitle { font-size: 0.9rem; color: #ced6e0; margin-bottom: 15px; line-height: 1.4; }
         
-        .cta-button { 
-            display: inline-flex; align-items: center; justify-content: center; gap: 8px; width: 100%; padding: 18px; background: linear-gradient(90deg, #ff9f43, #ff7b00); color: #fff; border: none; border-radius: 14px; font-size: 1.05rem; font-weight: 800; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; position: relative; overflow: hidden; animation: pulseGlow 2.5s infinite; transition: transform 0.2s;
+        /* Estilização dos Dois Botões (Telegram e Smart TV) */
+        .cta-group { display: flex; flex-direction: column; gap: 12px; width: 100%; margin-top: 5px; }
+        
+        .btn-telegram {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px;
+            background: linear-gradient(90deg, #27A7E7, #0088cc); color: #fff; border: none; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; transition: transform 0.2s, box-shadow 0.2s; box-shadow: 0 6px 20px rgba(0, 136, 204, 0.25);
         }
-        .cta-button::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); animation: shimmer 3s infinite; }
-        .cta-button:active { transform: scale(0.96); }
+        .btn-telegram:active { transform: scale(0.96); box-shadow: 0 2px 10px rgba(0, 136, 204, 0.3); }
+
+        .btn-tv {
+            display: inline-flex; align-items: center; justify-content: center; gap: 10px; width: 100%; padding: 16px;
+            background: linear-gradient(90deg, #ff9f43, #ff7b00); color: #fff; border: none; border-radius: 12px; font-size: 1rem; font-weight: 800; text-decoration: none; text-transform: uppercase; letter-spacing: 0.5px; position: relative; overflow: hidden; animation: pulseGlow 2.5s infinite; transition: transform 0.2s;
+        }
+        .btn-tv::after { content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent); animation: shimmer 3s infinite; }
+        .btn-tv:active { transform: scale(0.96); }
 
         /* Scroll Reveal (Efeito de ir aparecendo) */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-        }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94); }
         .reveal.active { opacity: 1; transform: translateY(0); }
 
         /* Scroll Infinito Automático (Marquee) */
         .genre-section { display: flex; flex-direction: column; overflow: hidden; }
         .marquee-container { width: 100%; overflow: hidden; position: relative; padding-bottom: 10px;}
-        .marquee-container::before, .marquee-container::after {
-            content: ""; position: absolute; top: 0; width: 30px; height: 100%; z-index: 2; pointer-events: none;
-        }
+        .marquee-container::before, .marquee-container::after { content: ""; position: absolute; top: 0; width: 30px; height: 100%; z-index: 2; pointer-events: none; }
         .marquee-container::before { left: 0; background: linear-gradient(to right, #090b0e, transparent); }
         .marquee-container::after { right: 0; background: linear-gradient(to left, #090b0e, transparent); }
         
@@ -140,7 +114,8 @@
 
         /* Bloco de Resultado */
         .movie-result { background-color: rgba(17, 20, 26, 0.9); backdrop-filter: blur(10px); border-radius: 20px; border: 1px solid #2a303c; padding: 20px; display: none; flex-direction: column; gap: 24px; animation: fadeIn 0.4s ease-out; box-shadow: 0 15px 35px rgba(0,0,0,0.3); }
-        .movie-info { display: flex; gap: 16px; }
+        .movie-info { display: flex; gap: 16px; cursor: pointer; transition: transform 0.2s;}
+        .movie-info:active { transform: scale(0.98); }
         .movie-poster { width: 110px; height: 165px; border-radius: 12px; object-fit: cover; box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6); }
         .movie-details { display: flex; flex-direction: column; justify-content: center; flex: 1; }
         .movie-title { font-size: 1.4rem; font-weight: 800; line-height: 1.1; margin-bottom: 8px; color: #fff; }
@@ -160,9 +135,8 @@
 <body>
 
     <div class="app-container">
-        <!-- Header e Hero -->
+        <!-- Header -->
         <header class="header">
-            <!-- AQUI: Mudamos para o Logo que funciona como botão de Home -->
             <a href="#" onclick="resetToHome(); return false;" class="brand-logo">💺 Poltrona 42</a>
             <div>
                 <h1 class="hero-title">O que você vai<br>assistir hoje?</h1>
@@ -186,7 +160,7 @@
         
         <div id="loadingIndicator" class="loading"><div class="spinner"></div></div>
 
-        <!-- TELA INICIAL (Com Reveal e Marquee) -->
+        <!-- TELA INICIAL -->
         <div id="homeState">
             
             <div class="reveal">
@@ -194,13 +168,21 @@
                 <div class="trending-scroll" id="trendingList"></div>
             </div>
 
+            <!-- Card de Conversão: HOME -->
             <div class="conversion-card reveal">
-                <h3 class="conversion-title">Chega de pagar <span>vários streamings!</span></h3>
-                <p class="conversion-subtitle">Tenha todos os filmes, séries e animes em um só lugar. A melhor experiência de cinema na sua casa.</p>
-                <a href="SUA_PAGINA_DE_VENDAS_AQUI" class="cta-button">🎬 Conhecer a Poltrona 42</a>
+                <h3 class="conversion-title">Liberar acesso <span>imediato:</span></h3>
+                <p class="conversion-subtitle">Tenha todos os filmes, séries e animes em um só lugar. Escolha onde prefere assistir:</p>
+                <div class="cta-group">
+                    <a href="https://pay.lowify.com.br/checkout?product_id=TzLxa0" target="_blank" class="btn-telegram">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.662 8.446c-.23 2.373-1.2 8.084-1.69 10.743-.2.11-.75.32-1.03.35-.87.08-1.53-.57-2.37-1.12-1.32-.87-2.07-1.41-3.34-2.25-1.48-.98-.52-1.52.33-2.39.22-.23 4.07-3.73 4.14-4.04.01-.04.02-.21-.1-.28-.12-.08-.28-.03-.41 0-.18.04-2.98 1.88-8.38 5.52-.79.54-1.51.81-2.16.8-.7-.02-2.07-.4-3.08-.73-1.24-.4-2.23-.62-2.14-1.3.05-.36.54-.72 1.47-1.11 5.78-2.52 9.63-4.18 11.56-4.99 5.5-2.29 6.64-2.69 7.39-2.7.16 0 .54.04.78.24.21.18.27.42.3.63.03.2.06.42.03.68z"/></svg>
+                        Plano Telegram
+                    </a>
+                    <a href="https://pay.lowify.com.br/checkout?product_id=6jU9sA" target="_blank" class="btn-tv">
+                        📺 App Smart TV
+                    </a>
+                </div>
             </div>
 
-            <!-- Categorias (Scroll Automático Infinito) -->
             <div class="genre-section reveal">
                 <h2 class="section-title">⚔️ Ação e Aventura</h2>
                 <div class="marquee-container">
@@ -221,12 +203,11 @@
                     <div class="marquee-track" id="track-horror"></div>
                 </div>
             </div>
-
         </div>
 
         <!-- Bloco de Resultado -->
         <main id="movieResult" class="movie-result">
-            <div class="movie-info">
+            <div class="movie-info" onclick="document.querySelector('.btn-tv').scrollIntoView({behavior: 'smooth'})">
                 <img id="moviePoster" src="" alt="Pôster" class="movie-poster">
                 <div class="movie-details">
                     <h1 id="movieTitle" class="movie-title"></h1>
@@ -240,10 +221,20 @@
                 <div id="platformsList" class="platforms-list"></div>
             </div>
 
+            <!-- Card de Conversão: RESULTADO DA BUSCA -->
             <div class="conversion-card" style="margin-top: 0;">
-                <h3 class="conversion-title">TUDO EM <span>UM SÓ!</span></h3>
-                <p class="conversion-subtitle">Tenha todas essas plataformas a partir de R$9,00.</p>
-                <a href="https://poltrona-quest-stream.lovable.app" class="cta-button">🎬 Assistir na Poltrona 42</a>
+                <h3 class="conversion-title">Liberar acesso <span>imediato:</span></h3>
+                <p class="conversion-subtitle">Escolha onde você prefere assistir a este título agora mesmo.</p>
+                
+                <div class="cta-group">
+                    <a href="https://pay.lowify.com.br/checkout?product_id=TzLxa0" target="_blank" class="btn-telegram">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0zm5.662 8.446c-.23 2.373-1.2 8.084-1.69 10.743-.2.11-.75.32-1.03.35-.87.08-1.53-.57-2.37-1.12-1.32-.87-2.07-1.41-3.34-2.25-1.48-.98-.52-1.52.33-2.39.22-.23 4.07-3.73 4.14-4.04.01-.04.02-.21-.1-.28-.12-.08-.28-.03-.41 0-.18.04-2.98 1.88-8.38 5.52-.79.54-1.51.81-2.16.8-.7-.02-2.07-.4-3.08-.73-1.24-.4-2.23-.62-2.14-1.3.05-.36.54-.72 1.47-1.11 5.78-2.52 9.63-4.18 11.56-4.99 5.5-2.29 6.64-2.69 7.39-2.7.16 0 .54.04.78.24.21.18.27.42.3.63.03.2.06.42.03.68z"/></svg>
+                        Plano Telegram
+                    </a>
+                    <a href="https://pay.lowify.com.br/checkout?product_id=6jU9sA" target="_blank" class="btn-tv">
+                        📺 App Smart TV
+                    </a>
+                </div>
             </div>
         </main>
     </div>
@@ -267,7 +258,6 @@
 
         let typingTimer;
 
-        // Inicia a página
         window.onload = () => { 
             fetchTrending(); 
             setupScrollReveal();
@@ -279,29 +269,21 @@
         function setupScrollReveal() {
             const reveals = document.querySelectorAll('.reveal');
             const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active');
-                    }
-                });
+                entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('active'); });
             }, { threshold: 0.1 });
-
             reveals.forEach(reveal => observer.observe(reveal));
-            
             setTimeout(() => {
                 if(reveals[0]) reveals[0].classList.add('active');
                 if(reveals[1]) reveals[1].classList.add('active');
             }, 100);
         }
 
-        // Função de Resetar a Tela (Agora também rola para o topo)
         function resetToHome() {
             searchInput.value = '';
             clearSearch.style.display = 'none';
             movieResult.style.display = 'none';
             homeState.style.display = 'flex';
             loadingIndicator.style.display = 'none';
-            // Rola a tela suavemente para o topo
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
@@ -319,19 +301,13 @@
                 const response = await fetch(`${BASE_URL}/discover/movie?api_key=${API_KEY}&language=pt-BR&with_genres=${genreId}&sort_by=popularity.desc`);
                 const data = await response.json();
                 const container = document.getElementById(containerId);
-                
                 let htmlContent = '';
                 data.results.forEach(media => {
                     if(media.poster_path) {
                         const safeTitle = (media.title || media.name).replace(/'/g, "\\'");
-                        htmlContent += `
-                            <div class="marquee-item" onclick="autoSearch('${safeTitle}')">
-                                <img src="${IMAGE_BASE_URL}${media.poster_path}" alt="Pôster">
-                            </div>
-                        `;
+                        htmlContent += `<div class="marquee-item" onclick="autoSearch('${safeTitle}')"><img src="${IMAGE_BASE_URL}${media.poster_path}" alt="Pôster"></div>`;
                     }
                 });
-                
                 container.innerHTML = htmlContent + htmlContent;
             } catch (error) { console.error("Erro na categoria:", error); }
         }
@@ -341,7 +317,6 @@
                 const response = await fetch(`${BASE_URL}/trending/all/day?api_key=${API_KEY}&language=pt-BR`);
                 const data = await response.json();
                 const results = data.results.filter(item => item.media_type === 'movie' || item.media_type === 'tv').slice(0, 10);
-                
                 trendingList.innerHTML = '';
                 results.forEach(media => {
                     if(media.poster_path) {
