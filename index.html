@@ -248,15 +248,21 @@
 
     <div id="instructionOverlay">
 
-       <div style="position: relative; width: 100%; max-width: 360px;">
-    <video id="instVideo" class="instruction-video" playsinline loop muted style="width: 100%;">
-        <source src="https://res.cloudinary.com/dxpygpngo/video/upload/v1782309153/IMG_0039_h0wgrc.mov" type="video/mp4">
-    </video>
-    
-    <button id="audioToggle" onclick="toggleVideoSound()" style="position: absolute; bottom: 15px; right: 15px; background: rgba(0,0,0,0.6); border: none; border-radius: 50%; padding: 8px; cursor: pointer; z-index: 10;">
-        🔇
-    </button>
-</div>
+        <div class="overlay-content">
+
+            <h2 style="color: #fff; font-size: 1.2rem; margin-bottom: 15px;">Como assistir pelo Telegram</h2>
+
+            <video class="instruction-video" autoplay muted playsinline loop>
+
+                <source src="https://res.cloudinary.com/dxpygpngo/video/upload/v1782309153/IMG_0039_h0wgrc.mov" type="video/mp4">
+
+            </video>
+
+            <a href="https://pay.lowify.com.br/checkout?product_id=TzLxa0" target="_blank" class="btn-telegram">Assistir Agora</a>
+
+            <button class="close-btn" onclick="closeOverlay()">Fechar</button>
+
+        </div>
 
     </div>
 
@@ -669,4 +675,3 @@
 </body>
 
 </html> 
-
