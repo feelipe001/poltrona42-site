@@ -220,7 +220,6 @@
             <div class="genre-section reveal"><h2 class="section-title">😂 Comédia</h2><div class="marquee-container"><div class="marquee-track reverse" id="track-comedy"></div></div></div>
             <div class="genre-section reveal"><h2 class="section-title">👻 Terror</h2><div class="marquee-container"><div class="marquee-track" id="track-horror"></div></div></div>
             
-            <!-- NOVO BLOCO DE VÍDEO INICIAL ADICIONADO AQUI -->
             <div class="conversion-card reveal" style="padding: 24px 20px;">
                 <h3 class="conversion-title" style="font-size: 1.15rem; margin-bottom: 15px;">Veja como é <span>fácil assistir</span></h3>
                 <div style="position: relative; width: 100%;">
@@ -233,7 +232,6 @@
                     <a href="https://pay.lowify.com.br/checkout?product_id=TzLxa0" target="_blank" class="btn-telegram">🚀 ASSISTIR AGORA</a>
                 </div>
             </div>
-            <!-- FIM DO NOVO BLOCO -->
 
             <div class="plans-container reveal">
                 <div class="plan-card">
@@ -303,7 +301,8 @@
             <div class="conversion-card">
                 <div class="cta-group">
                     <button onclick="showTelegramOverlay()" class="btn-telegram">🎬 Como assistir pelo Telegram</button>
-                    <a href="#plano-smartv" class="btn-tv">📺 App Smart TV</a>
+                    <!-- AQUI ESTÁ A ALTERAÇÃO: O botão agora leva direto para o checkout em uma nova guia -->
+                    <a href="https://pay.lowify.com.br/checkout?product_id=6jU9sA" target="_blank" class="btn-tv">📺 App Smart TV</a>
                 </div>
             </div>
         </main>
@@ -328,7 +327,6 @@
             }
         }
 
-        // Função de áudio para o NOVO vídeo inicial
         function toggleHomeVideoAudio() {
             const homeVideo = document.getElementById('homeVideo');
             const homeAudioBtn = document.getElementById('homeAudioBtn');
