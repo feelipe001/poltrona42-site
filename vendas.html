@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Apresentação Exclusiva</title>
     <style>
         /* Reset de Estilos para Mobile */
@@ -14,64 +14,66 @@
         }
 
         body {
-            background-color: #111217; /* Paleta exata enviada na imagem */
+            background-color: #111217; 
             color: #FFFFFF;
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             display: flex;
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            padding: 24px 16px;
+            /* Aumento significativo do padding superior para não conflitar com a barra do celular (Dynamic Island/Notch) */
+            padding: max(60px, env(safe-area-inset-top)) 16px 30px 16px; 
             text-align: center;
             overflow-x: hidden;
         }
 
         .container {
             width: 100%;
-            max-width: 480px; /* Largura perfeita e otimizada para telas Mobile */
+            max-width: 480px; 
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* Indicador superior de áudio (Gera engajamento no mobile) */
+        /* Indicador superior de áudio */
         .audio-alert {
             font-size: 12px;
             color: #a0a5b5;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 1px;
             font-weight: 600;
             display: flex;
             align-items: center;
+            justify-content: center;
             gap: 6px;
+            width: 100%;
         }
 
-        /* Headline Otimizada para Mobile (Tamanho ideal para não empurrar o vídeo para fora da tela) */
+        /* Headline Otimizada */
         .headline {
-            font-size: 20px;
+            font-size: 21px;
             font-weight: 700;
             line-height: 1.4;
-            margin-bottom: 24px;
+            margin-bottom: 30px;
             color: #FFFFFF;
             letter-spacing: -0.3px;
         }
 
-        /* Cor de Destaque na Headline */
         .headline span {
-            color: #00e676; /* Verde neon de alta conversão */
+            color: #00e676; 
         }
 
-        /* Container do Vídeo 16:9 Adaptado para Smartphones */
+        /* Container do Vídeo */
         .video-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* Mantém a proporção perfeita do player */
+            padding-bottom: 56.25%; 
             height: 0;
             background-color: #000000;
             border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-            margin-bottom: 20px;
+            margin-bottom: 25px;
             border: 1px solid rgba(255, 255, 255, 0.04);
             overflow: hidden;
         }
@@ -85,11 +87,11 @@
             border: 0;
         }
 
-        /* Botão de Vendas - Posicionado IMEDIATAMENTE abaixo do vídeo */
+        /* Botão de Vendas */
         .cta-button {
-            display: none; /* Fica oculto até o gatilho do JavaScript */
+            display: none; 
             width: 100%;
-            background: linear-gradient(135deg, #10b981 0%, #059669 100%); /* Gradiente premium verde */
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
             color: #FFFFFF;
             text-decoration: none;
             padding: 18px 20px;
@@ -100,36 +102,25 @@
             letter-spacing: 0.5px;
             box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
             transition: transform 0.1s ease;
-            margin-top: 8px;
+            margin-top: 10px;
             animation: pulseEffect 2s infinite;
         }
 
-        /* Feedback visual ao toque no mobile */
         .cta-button:active {
             transform: scale(0.97);
             box-shadow: 0 3px 10px rgba(16, 185, 129, 0.4);
         }
 
-        /* Efeito Pulsante para prender a atenção do usuário no clique */
         @keyframes pulseEffect {
-            0% {
-                transform: scale(1);
-                box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-            }
-            50% {
-                transform: scale(1.02);
-                box-shadow: 0 8px 25px rgba(16, 185, 129, 0.6);
-            }
-            100% {
-                transform: scale(1);
-                box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-            }
+            0% { transform: scale(1); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); }
+            50% { transform: scale(1.02); box-shadow: 0 8px 25px rgba(16, 185, 129, 0.6); }
+            100% { transform: scale(1); box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4); }
         }
 
-        /* Rodapé de conformidade técnica (Essencial para aprovação de anúncios) */
+        /* Rodapé */
         .footer-compliance {
-            margin-top: auto;
-            padding-top: 40px;
+            margin-top: 40px;
+            padding-top: 20px;
             font-size: 11px;
             color: #525866;
             line-height: 1.6;
@@ -150,23 +141,22 @@
             <span>🔊</span> POR FAVOR, VERIFIQUE SE O SEU SOM ESTÁ LIGADO
         </div>
 
-        <!-- Headline Mobile Magnética -->
+        <!-- Headline -->
         <h1 class="headline">
             Como Descobrir o Mecanismo Oculto para <span>Multiplicar Seus Resultados</span> Sem Mudar de Rotina
         </h1>
 
-        <!-- VSL (Player de Vídeo) -->
+        <!-- VSL -->
         <div class="video-container">
-            <!-- INSIRA O SEU EMBED DE VÍDEO AQUI (Vturb, Vimeo, YouTube, etc.) -->
-            <iframe src="https://www.youtube.com/watch?v=V266d5AG_FU&list=RDV266d5AG_FU&start_radio=1" allow="autoplay; fullscreen" allowfullscreen></iframe>
+            <iframe src="SUA_URL_DE_EMBED_AQUI" allow="autoplay; fullscreen" allowfullscreen></iframe>
         </div>
 
-        <!-- Botão Estratégico (Logo abaixo do vídeo) -->
+        <!-- Botão -->
         <a href="vendas.html" class="cta-button" id="btn-vsl">
             Quero Garantir Meu Acesso
         </a>
 
-        <!-- Links de Rodapé para evitar bloqueios em anúncios -->
+        <!-- Rodapé -->
         <footer class="footer-compliance">
             <p>
                 <a href="#">Termos de Uso</a> | <a href="#">Políticas de Privacidade</a>
@@ -180,17 +170,14 @@
 
     <!-- Script Inteligente de Delay -->
     <script>
-        // CONFIGURAÇÃO: Defina o tempo de delay em segundos para o botão aparecer
-        const segundosDeDelay = 45; 
+        // ATENÇÃO: Mudei para apenas 2 segundos para você conseguir VER o botão no seu teste.
+        // Quando for rodar valendo, altere esse número para o tempo real da oferta do seu vídeo!
+        const segundosDeDelay = 2; 
 
         setTimeout(() => {
             const botao = document.getElementById('btn-vsl');
             if (botao) {
-                // Exibe o botão na página
                 botao.style.display = 'block';
-                
-                // Executa um scroll suave para garantir que o botão apareça perfeitamente na tela do celular
-                botao.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
             }
         }, segundosDeDelay * 1000);
     </script>
