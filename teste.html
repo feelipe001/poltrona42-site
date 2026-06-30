@@ -162,7 +162,7 @@
         .platform-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 16px; background: #1c202b; border-radius: 14px; }
         .no-providers { font-size: 0.9rem; color: #a4b0be; text-align: center; padding: 15px; }
         
-        /* Estilos dos Planos (Adicionados) */
+        /* Estilos dos Planos */
         .plans-container { display: flex; flex-direction: column; gap: 35px; padding-top: 20px; }
         .plan-card { background: #080a0f; border: 1px solid #1c202b; border-radius: 16px; padding: 35px 25px; position: relative; display: flex; flex-direction: column; }
         .plan-card.highlight { border-color: #ff003c; box-shadow: 0 0 25px rgba(255, 0, 60, 0.15); }
@@ -196,13 +196,11 @@
 
     <div class="app-container">
         
-        <!-- NOVO HEADER ADICIONADO AQUI -->
         <header class="header reveal active">
             <h1 class="brand-logo">Poltrona 42</h1>
             <p class="hero-subtitle">Descubra onde assistir seus filmes e séries, <strong>tudo em um só lugar.</strong></p>
         </header>
 
-        <!-- BARRA DE BUSCA ADICIONADA AQUI -->
         <div class="search-wrapper reveal active">
             <svg class="search-icon" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
             <input type="text" id="searchInput" class="search-input" placeholder="Qual filme você quer ver hoje?" autocomplete="off">
@@ -222,6 +220,21 @@
             <div class="genre-section reveal"><h2 class="section-title">😂 Comédia</h2><div class="marquee-container"><div class="marquee-track reverse" id="track-comedy"></div></div></div>
             <div class="genre-section reveal"><h2 class="section-title">👻 Terror</h2><div class="marquee-container"><div class="marquee-track" id="track-horror"></div></div></div>
             
+            <!-- NOVO BLOCO DE VÍDEO INICIAL ADICIONADO AQUI -->
+            <div class="conversion-card reveal" style="padding: 24px 20px;">
+                <h3 class="conversion-title" style="font-size: 1.15rem; margin-bottom: 15px;">Veja como é <span>fácil assistir</span></h3>
+                <div style="position: relative; width: 100%;">
+                    <video id="homeVideo" class="instruction-video" playsinline loop muted autoplay style="margin: 0 0 15px 0;">
+                        <source src="https://res.cloudinary.com/dxpygpngo/video/upload/v1782309153/IMG_0039_h0wgrc.mov" type="video/mp4">
+                    </video>
+                    <button id="homeAudioBtn" class="audio-btn" onclick="toggleHomeVideoAudio()" style="bottom: 25px; right: 10px;">🔇</button>
+                </div>
+                <div class="cta-group">
+                    <a href="https://pay.lowify.com.br/checkout?product_id=TzLxa0" target="_blank" class="btn-telegram">🚀 ASSISTIR AGORA</a>
+                </div>
+            </div>
+            <!-- FIM DO NOVO BLOCO -->
+
             <div class="plans-container reveal">
                 <div class="plan-card">
                     <span class="plan-icon">📱</span>
@@ -305,17 +318,31 @@
 
         function toggleVideoAudio() {
             if (video.muted) {
-                video.muted = false;       // Tira o mudo
-                video.currentTime = 0;     // Reinicia do zero
-                video.play();              // Garante o play
-                audioBtn.innerText = "🔊"; // Altera o ícone
+                video.muted = false;       
+                video.currentTime = 0;     
+                video.play();              
+                audioBtn.innerText = "🔊"; 
             } else {
-                video.muted = true;        // Muta novamente
+                video.muted = true;        
                 audioBtn.innerText = "🔇";
             }
         }
 
-        // Atualize sua função de abrir para garantir o estado inicial
+        // Função de áudio para o NOVO vídeo inicial
+        function toggleHomeVideoAudio() {
+            const homeVideo = document.getElementById('homeVideo');
+            const homeAudioBtn = document.getElementById('homeAudioBtn');
+            if (homeVideo.muted) {
+                homeVideo.muted = false;
+                homeVideo.currentTime = 0;
+                homeVideo.play();
+                homeAudioBtn.innerText = "🔊";
+            } else {
+                homeVideo.muted = true;
+                homeAudioBtn.innerText = "🔇";
+            }
+        }
+
         function showTelegramOverlay() { 
             document.getElementById('instructionOverlay').style.display = 'flex';
             video.muted = true;
@@ -344,7 +371,6 @@
         const platformsList = document.getElementById('platformsList');
         let typingTimer;
 
-        // Substituído window.onload por DOMContentLoaded para carregar instantâneo
         document.addEventListener('DOMContentLoaded', () => { 
             setupScrollReveal();
             fetchGenreMarquee(28, 'track-action');
@@ -387,7 +413,6 @@
                     }
                 });
                 container.innerHTML = htmlContent + htmlContent;
-                // Força um redesenho da tela para o iOS evitar o bug das imagens invisíveis
                 container.style.animation = 'none';
                 container.offsetHeight; 
                 container.style.animation = '';
