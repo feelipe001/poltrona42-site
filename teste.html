@@ -176,6 +176,13 @@
         .plan-btn-outline { display: block; width: 100%; text-align: center; padding: 18px; border-radius: 12px; font-size: 0.85rem; font-weight: 800; text-decoration: none; color: #fff; background: transparent; border: 1px solid #2a303c; transition: all 0.3s; text-transform: uppercase; letter-spacing: 0.5px; margin-top: auto; }
         .plan-btn-solid { display: block; width: 100%; text-align: center; padding: 18px; border-radius: 12px; font-size: 0.85rem; font-weight: 800; text-decoration: none; color: #fff; background: #ff003c; border: none; box-shadow: 0 0 20px rgba(255, 0, 60, 0.4); text-transform: uppercase; letter-spacing: 0.5px; margin-top: auto; }
 
+        /* Carrossel de Prints */
+.prints-container { margin: 20px 0; }
+.prints-carousel { display: flex; gap: 12px; overflow-x: auto; padding: 0 10px; scrollbar-width: none; }
+.prints-carousel::-webkit-scrollbar { display: none; }
+.print-item { width: 220px; flex-shrink: 0; border: 1px solid #2a303c; border-radius: 12px; background: #1c202b; }
+.print-item img { width: 100%; border-radius: 12px; display: block; }
+        
         /* --- ESTILOS DAS NOTIFICAÇÕES FAKES --- */
         .fake-notification {
             position: fixed;
@@ -303,6 +310,16 @@
                 </div>
             </div>
 
+            <div class="prints-container">
+    <h2 class="section-title">📱 Por dentro do Telegram</h2>
+    <div class="prints-carousel">
+        <div class="print-item"><img src="https://res.cloudinary.com/dxpygpngo/image/upload/v1782865088/1_k232xw.png" alt="Print 1"></div>
+        <div class="print-item"><img src="https://res.cloudinary.com/dxpygpngo/image/upload/v1782865088/2_hd5fqk.png" alt="Print 2"></div>
+        <div class="print-item"><img src="https://res.cloudinary.com/dxpygpngo/image/upload/v1782865088/3_nfsvie.png" alt="Print 3"></div>
+        <div class="print-item"><img src="https://res.cloudinary.com/dxpygpngo/image/upload/v1782865088/4_bhh6jr.png" alt="Print 4"></div>
+    </div>
+</div>
+            
             <div class="plans-container reveal">
                 <div class="plan-card">
                     <span class="plan-icon">📱</span>
