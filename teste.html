@@ -144,7 +144,6 @@
         .reveal.active { opacity: 1; transform: translateY(0); }
         .genre-section { display: flex; flex-direction: column; overflow: hidden; }
         .marquee-container { width: 100%; overflow: hidden; position: relative; padding-bottom: 10px;}
-        /* will-change: transform; adicionado abaixo para corrigir o bug de sumir no iOS */
         .marquee-track { display: flex; gap: 12px; width: max-content; animation: scrollMarquee 40s linear infinite; will-change: transform; }
         .marquee-track.reverse { animation-direction: reverse; }
         .marquee-item { width: 105px; flex-shrink: 0; cursor: pointer; transition: transform 0.2s; }
@@ -176,9 +175,80 @@
         .plan-features li::before { content: '✓'; color: #ff003c; font-weight: bold; font-size: 1.1rem; }
         .plan-btn-outline { display: block; width: 100%; text-align: center; padding: 18px; border-radius: 12px; font-size: 0.85rem; font-weight: 800; text-decoration: none; color: #fff; background: transparent; border: 1px solid #2a303c; transition: all 0.3s; text-transform: uppercase; letter-spacing: 0.5px; margin-top: auto; }
         .plan-btn-solid { display: block; width: 100%; text-align: center; padding: 18px; border-radius: 12px; font-size: 0.85rem; font-weight: 800; text-decoration: none; color: #fff; background: #ff003c; border: none; box-shadow: 0 0 20px rgba(255, 0, 60, 0.4); text-transform: uppercase; letter-spacing: 0.5px; margin-top: auto; }
+
+        /* --- ESTILOS DAS NOTIFICAÇÕES FAKES --- */
+        .fake-notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(150%);
+            width: calc(100% - 40px);
+            max-width: 400px;
+            background: rgba(17, 20, 26, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid #2a303c;
+            border-left: 4px solid #ff9f43; /* Cor base */
+            border-radius: 12px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            z-index: 9999;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+            pointer-events: none; /* Não atrapalha o clique nos botões embaixo */
+        }
+        .fake-notification.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+        .notif-icon {
+            font-size: 22px;
+            background: rgba(255, 159, 67, 0.1);
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .notif-text-content {
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        .notif-name {
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #fff;
+            margin-bottom: 3px;
+        }
+        .notif-action {
+            font-size: 0.85rem;
+            color: #ced6e0;
+            line-height: 1.3;
+        }
+        .notif-time {
+            font-size: 0.7rem;
+            color: #747d8c;
+            margin-top: 4px;
+            font-weight: 600;
+        }
     </style>
 </head>
 <body>
+
+    <!-- NOTIFICAÇÃO FAKE (Oculta por padrão) -->
+    <div id="fakeNotification" class="fake-notification">
+        <div class="notif-icon" id="notifIcon">📱</div>
+        <div class="notif-text-content">
+            <div id="notifName" class="notif-name"></div>
+            <div id="notifAction" class="notif-action"></div>
+            <div class="notif-time">Agora mesmo</div>
+        </div>
+    </div>
 
     <div id="instructionOverlay">
         <div class="overlay-content">
@@ -301,7 +371,6 @@
             <div class="conversion-card">
                 <div class="cta-group">
                     <button onclick="showTelegramOverlay()" class="btn-telegram">🎬 Como assistir pelo Telegram</button>
-                    <!-- AQUI ESTÁ A ALTERAÇÃO: O botão agora leva direto para o checkout em uma nova guia -->
                     <a href="https://pay.lowify.com.br/checkout?product_id=6jU9sA" target="_blank" class="btn-tv">📺 App Smart TV</a>
                 </div>
             </div>
@@ -374,6 +443,7 @@
             fetchGenreMarquee(28, 'track-action');
             fetchGenreMarquee(35, 'track-comedy');
             fetchGenreMarquee(27, 'track-horror');
+            initFakeNotifications(); // Inicia o script das notificações fakes
         });
 
         function setupScrollReveal() {
@@ -469,6 +539,59 @@
                     if (providersBR.rent) providersBR.rent.forEach(p => platformsList.innerHTML += `<div class="platform-item"><div class="platform-left"><img src="${IMAGE_BASE_URL}${p.logo_path}" style="width:32px; border-radius:8px"> ${p.provider_name}</div><span>Aluguel</span></div>`);
                 } else { platformsList.innerHTML = '<div class="no-providers">Não disponível em streamings oficiais no Brasil.</div>'; }
             } catch (error) { platformsList.innerHTML = '<div class="no-providers">Erro ao carregar plataformas.</div>'; }
+        }
+
+        /* --- SCRIPT DAS NOTIFICAÇÕES FAKES --- */
+        function initFakeNotifications() {
+            const names = ["João P.", "Maria S.", "Pedro H.", "Ana C.", "Lucas M.", "Carlos E.", "Fernanda R.", "Julia B.", "Rafael G.", "Mariana T.", "Bruno F.", "Amanda L.", "Diego V.", "Camila P."];
+            const tvBrands = ["Samsung", "LG", "AOC", "TCL"];
+            const notifEl = document.getElementById('fakeNotification');
+            const nameEl = document.getElementById('notifName');
+            const actionEl = document.getElementById('notifAction');
+            const iconEl = document.getElementById('notifIcon');
+
+            function showNotification() {
+                // Sorteia os dados
+                const randomName = names[Math.floor(Math.random() * names.length)];
+                const isTelegram = Math.random() > 0.5; // 50% de chance para cada
+
+                nameEl.textContent = randomName;
+
+                if (isTelegram) {
+                    actionEl.textContent = "está assistindo pelo Telegram";
+                    iconEl.textContent = "📱";
+                    notifEl.style.borderLeftColor = "#27A7E7"; // Cor do Telegram
+                    iconEl.style.background = "rgba(39, 167, 231, 0.1)";
+                } else {
+                    const randomTV = tvBrands[Math.floor(Math.random() * tvBrands.length)];
+                    actionEl.textContent = `acabou de baixar o app para Smart TV ${randomTV}`;
+                    iconEl.textContent = "📺";
+                    notifEl.style.borderLeftColor = "#ff003c"; // Cor da TV
+                    iconEl.style.background = "rgba(255, 0, 60, 0.1)";
+                }
+
+                // Exibe
+                notifEl.classList.add('show');
+
+                // Esconde após 4 segundos
+                setTimeout(() => {
+                    notifEl.classList.remove('show');
+                }, 4000);
+            }
+
+            // Loop: a primeira aparece depois de 4 segundos, as próximas variam entre 8 a 15 segundos
+            function scheduleNext() {
+                const delay = Math.floor(Math.random() * (15000 - 8000 + 1)) + 8000;
+                setTimeout(() => {
+                    showNotification();
+                    scheduleNext();
+                }, delay);
+            }
+            
+            setTimeout(() => {
+                showNotification();
+                scheduleNext();
+            }, 4000);
         }
 
     </script>
